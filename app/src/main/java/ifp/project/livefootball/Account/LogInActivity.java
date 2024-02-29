@@ -43,49 +43,39 @@ public class LogInActivity extends AppCompatActivity {
         editText2 = (EditText) findViewById(R.id.editText2_logIn);
         button1 = (Button) findViewById(R.id.button1_logIn);
         button2 = (Button) findViewById(R.id.button2_logIn);
-        db= new Database(this);
+        db = new Database(this);
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               textContent1= editText1.getText().toString();
-               textContent2= editText2.getText().toString();
+                textContent1 = editText1.getText().toString();
+                textContent2 = editText2.getText().toString();
 
-               if (textContent1.equals("") || textContent2.equals("")){
-                   Toast toast= Toast.makeText(LogInActivity.this, "Debe indicar usuario y contraseña", Toast.LENGTH_SHORT);
-                   toast.show();
-               }
-               else {
+                if (textContent1.equals("") || textContent2.equals("")) {
+                    Toast toast = Toast.makeText(LogInActivity.this, "Debe indicar usuario y contraseña", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else {
 
-                   if (db.getUser(textContent1).equals(textContent1) && db.getPass(textContent1, textContent2).equals(textContent2)){
+                    if (db.getUser(textContent1).equals(textContent1) && db.getPass(textContent1, textContent2).equals(textContent2)) {
 
-                       Toast.makeText(LogInActivity.this, "Tienes acceso", Toast.LENGTH_SHORT).show();
-                       changeActivity= new Intent(LogInActivity.this, MainMenuActivity.class);
-                       finish();
-                       startActivity(changeActivity);
-                   }
-                   else{
-                       Toast toast= Toast.makeText(LogInActivity.this, "Usuario y/o contraseña erróneos", Toast.LENGTH_SHORT);
-                       toast.show();
-                   }
-               }
+                        Toast.makeText(LogInActivity.this, "Tienes acceso", Toast.LENGTH_SHORT).show();
+                        changeActivity = new Intent(LogInActivity.this, MainMenuActivity.class);
+                        finish();
+                        startActivity(changeActivity);
+                    } else {
+                        Toast toast = Toast.makeText(LogInActivity.this, "Usuario y/o contraseña erróneos", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                }
             }
         });
 
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TimerTask myTimertask = new TimerTask() {
-                    @Override
-                    public void run() {
-                        Intent changeActivity= new Intent(LogInActivity.this, RegisterActivity.class);
-                        finish();
-                        startActivity(changeActivity);
-                    }
-                };
-
-                Timer timer = new Timer();
-                timer.schedule(myTimertask, 3000);
+                Intent changeActivity = new Intent(LogInActivity.this, RegisterActivity.class);
+                finish();
+                startActivity(changeActivity);
             }
         });
     }
