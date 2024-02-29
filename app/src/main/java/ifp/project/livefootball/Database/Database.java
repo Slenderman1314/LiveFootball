@@ -43,40 +43,40 @@ public class Database extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         db.execSQL("SELECT name FROM user");
         if (db.equals(name)) {
-            name= db.toString();
+            name = db.toString();
         }
         return name;
     }
 
-    public void insertUser(String name, String pass, String role){
-        SQLiteDatabase db= this.getWritableDatabase();
-        db.execSQL("INSERT INTO users VALUES (null, 'name', 'pass', 'role')");
+    public void insertUser(String name, String pass, String role) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("INSERT INTO users VALUES (null, name, pass, role)");
     }
 
-    public ArrayList<String> getMatches(){
-        ArrayList<String> matchList= new ArrayList<String>();
-        SQLiteDatabase db= this.getWritableDatabase();
-        Cursor cursor= null;
-        cursor= db.rawQuery("SELECT localScore, guestScore FROM footballMatch INNER JOIN teams ON footballMatch.localTeamName= teams.name INNER JOIN teams ON footballMatch.guestTeamName= teams.name WHERE idGuestTeam= idTeam AND idLocalTeam= idTeam", null);
+    public ArrayList<String> getMatches() {
+        ArrayList<String> matchList = new ArrayList<String>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = null;
+        cursor = db.rawQuery("SELECT localScore, guestScore FROM footballMatch INNER JOIN teams ON footballMatch.localTeamName= teams.name INNER JOIN teams ON footballMatch.guestTeamName= teams.name WHERE idGuestTeam= idTeam AND idLocalTeam= idTeam", null);
 
-        if (cursor.getCount()>0){
+        if (cursor.getCount() > 0) {
             cursor.moveToFirst();
-            while (!cursor.isAfterLast()){
-                matchList.add(cursor.getString(0)+ "-" + cursor.getString(1));
+            while (!cursor.isAfterLast()) {
+                matchList.add(cursor.getString(0) + "-" + cursor.getString(1));
                 cursor.moveToNext();
             }
         }
         return matchList;
     }
 
-    public ArrayList<String> getTeams(){
-        ArrayList<String> teamList= new ArrayList<String>();
-        SQLiteDatabase db= this.getWritableDatabase();
-        Cursor cursor= null;
-        cursor= db.rawQuery("SELECT name FROM teams", null);
-        if (cursor.getCount()>0){
+    public ArrayList<String> getTeams() {
+        ArrayList<String> teamList = new ArrayList<String>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = null;
+        cursor = db.rawQuery("SELECT name FROM teams", null);
+        if (cursor.getCount() > 0) {
             cursor.moveToFirst();
-            while (!cursor.isAfterLast()){
+            while (!cursor.isAfterLast()) {
                 teamList.add(cursor.getString(0));
                 cursor.moveToNext();
             }
@@ -84,21 +84,18 @@ public class Database extends SQLiteOpenHelper {
         return teamList;
     }
 
-    public ArrayList<String> getPlayers(){
-        ArrayList<String> playerList= new ArrayList<String>();
-        SQLiteDatabase db= this.getWritableDatabase();
-        Cursor cursor= null;
-        cursor= db.rawQuery("SELECT playerName FROM players INNER JOIN teams ON player.team= teams.name WHERE idTeam= idTeams", null);
-        if (cursor.getCount()>0){
+    public ArrayList<String> getPlayers() {
+        ArrayList<String> playerList = new ArrayList<String>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = null;
+        cursor = db.rawQuery("SELECT playerName FROM players INNER JOIN teams ON player.team= teams.name WHERE idTeam= idTeams", null);
+        if (cursor.getCount() > 0) {
             cursor.moveToFirst();
-            while (!cursor.isAfterLast()){
-                playerList.add(cursor.getString(0)+ "--" +cursor.getString(1));
+            while (!cursor.isAfterLast()) {
+                playerList.add(cursor.getString(0) + "--" + cursor.getString(1));
                 cursor.moveToNext();
             }
         }
         return playerList;
     }
-
-
-
 }

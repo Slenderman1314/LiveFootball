@@ -82,7 +82,9 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
 
             public void onClick(View view){
-
+                changeActivity = new Intent(RegisterActivity.this, LogInActivity.class);
+                finish();
+                startActivity(changeActivity);
             }
 
         });
