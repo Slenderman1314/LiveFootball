@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.LiveFootball"
+        tools:targetApi="31">
+        <activity
+            android:name="ifp.project.livefootball.Team.ListTeamActivity"
+            android:exported="false" />
+        <activity
+            android:name="ifp.project.livefootball.Player.EditPlayerActivity"
+            android:exported="false" />
+        <activity
+            android:name="ifp.project.livefootball.Player.PlayerCreateActivity"
+            android:exported="false" />
+        <activity
+            android:name="ifp.project.livefootball.Team.EditTeamActivity"
+            android:exported="false" />
+        <activity
+            android:name="ifp.project.livefootball.Team.CreateTeamActivity"
+            android:exported="false" />
+        <activity
+            android:name="ifp.project.livefootball.Match.EditMatchActivity"
+            android:exported="false" />
+        <activity
+            android:name="ifp.project.livefootball.Match.CreateMatchActivity"
+            android:exported="false" />
+        <activity
+            android:name="ifp.project.livefootball.Account.LogInActivity"
+            android:exported="false" />
+        <activity
+            android:name="ifp.project.livefootball.Account.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name="ifp.project.livefootball.MainMenu.MainMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
