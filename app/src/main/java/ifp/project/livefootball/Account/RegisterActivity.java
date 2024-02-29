@@ -27,6 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
     private RadioButton radioButton1;
     private RadioButton radioButton2;
     private Button button1;
+    private Button button2;
     private String TextContent1;
     private String TextContent2;
     private String RadioValor;
@@ -44,6 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
         radioButton1= (RadioButton) findViewById(R.id.radioButton1_register);
         radioButton2= (RadioButton) findViewById(R.id.radioButton2_register);
         button1= (Button) findViewById(R.id.button1_register);
+        button2= (Button) findViewById(R.id.button2_register);
 
         db= new Database(this);
 
@@ -75,5 +77,15 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
+
+        button2.setOnClickListener(new View.OnClickListener(){
+            @Override
+
+            public void onClick(View view){
+
+            }
+
+        });
+
     }
 }
