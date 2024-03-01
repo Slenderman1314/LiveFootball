@@ -10,10 +10,10 @@ import java.util.ArrayList;
 
 public class Database extends SQLiteOpenHelper {
 
+
     public Database(Context context) {
         super(context, "AppDatabase", null, 1);
     }
-
 
     @Override
     public void onCreate(SQLiteDatabase db) {
