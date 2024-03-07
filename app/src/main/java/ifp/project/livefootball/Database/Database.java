@@ -10,11 +10,9 @@ import java.util.ArrayList;
 
 public class Database extends SQLiteOpenHelper {
 
-
     public Database(Context context) {
         super(context, "AppDatabase", null, 1);
     }
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS teams (idTeams INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL , name VARCHAR)");
@@ -25,7 +23,6 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-
 
     }
 
@@ -71,9 +68,10 @@ public class Database extends SQLiteOpenHelper {
 
     public ArrayList<String> getTeams() {
         ArrayList<String> teamList = new ArrayList<String>();
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
         cursor = db.rawQuery("SELECT name FROM teams", null);
+        cursor.moveToLast();
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -86,9 +84,10 @@ public class Database extends SQLiteOpenHelper {
 
     public ArrayList<String> getPlayers() {
         ArrayList<String> playerList = new ArrayList<String>();
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
         cursor = db.rawQuery("SELECT playerName FROM players INNER JOIN teams ON player.team= teams.name WHERE idTeam= idTeams", null);
+        cursor.moveToLast();
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
