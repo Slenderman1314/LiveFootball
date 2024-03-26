@@ -8,11 +8,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 import ifp.project.livefootball.Database.Database;
 import ifp.project.livefootball.MainMenu.MainMenuActivity;
@@ -26,6 +24,7 @@ public class LogInActivity extends AppCompatActivity {
     private EditText editText2;
     private Button button1;
     private Button button2;
+    private ImageView ima1;
     private Database db;
     private String textContent1;
     private String textContent2;
@@ -45,6 +44,7 @@ public class LogInActivity extends AppCompatActivity {
         editText2 = (EditText) findViewById(R.id.editText2_logIn);
         button1 = (Button) findViewById(R.id.button1_logIn);
         button2 = (Button) findViewById(R.id.button2_logIn);
+        ima1 = (ImageView) findViewById(R.id.ima1_menu);
         db = new Database(this);
 
         button1.setOnClickListener(new View.OnClickListener() {

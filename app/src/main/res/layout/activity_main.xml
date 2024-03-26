@@ -7,33 +7,31 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/TextView1_main"
-        android:layout_width="207dp"
-        android:layout_height="56dp"
-        android:text="LiveFootball"
-        android:textAlignment="center"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.176" />
-
-    <TextView
         android:id="@+id/textView2_main"
         android:layout_width="0dp"
         android:layout_height="46dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="190dp"
         android:layout_marginEnd="32dp"
+        android:layout_marginBottom="348dp"
         android:text="Lleva el futbol a otro nivel"
         android:textAlignment="center"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.451"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextView1_main"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/ima1_main" />
+
+    <ImageView
+        android:id="@+id/ima1_main"
+        android:layout_width="197dp"
+        android:layout_height="199dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="116dp"
+        android:layout_marginEnd="120dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/livefootbal_logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

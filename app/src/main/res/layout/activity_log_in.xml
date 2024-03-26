@@ -102,4 +102,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button1_logIn" />
 
+    <ImageView
+        android:id="@+id/ima1_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="120dp"
+        android:layout_marginEnd="120dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button2_logIn"
+        app:layout_constraintVertical_bias="0.937"
+        app:srcCompat="@drawable/livefootbal_logo" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
