@@ -3,21 +3,14 @@ package ifp.project.livefootball.MainMenu;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
-
 import ifp.project.livefootball.Account.LogInActivity;
-import ifp.project.livefootball.Account.RegisterActivity;
 import ifp.project.livefootball.Player.EditPlayerActivity;
 import ifp.project.livefootball.Player.PlayerCreateActivity;
 import ifp.project.livefootball.R;
@@ -28,31 +21,41 @@ import ifp.project.livefootball.Database.Database;
 import ifp.project.livefootball.Team.CreateTeamActivity;
 import ifp.project.livefootball.Team.EditTeamActivity;
 import ifp.project.livefootball.Team.ListTeamActivity;
+import ifp.project.livefootball.User;
 
 public class MainMenuActivity extends AppCompatActivity {
     private Database db;
-    private ArrayList <String> arrayList= new ArrayList<String>();
-    private ArrayAdapter <String> arrayAdapter;
+    private ArrayList<String> arrayList = new ArrayList<String>();
+    private ArrayAdapter<String> arrayAdapter;
     private ImageView ima1;
     private String selectedOption;
     private Spinner spin1;
     private Button boton1;
+    private Button boton2;
     private ArrayAdapter<CharSequence> adapter;
     protected Intent changeActivity;
+    private User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        ima1 = (ImageView) findViewById(R.id.ima1_menu);
+        ima1 = (ImageView) findViewById(R.id.ima1_main_menu);
         spin1 = findViewById(R.id.spin1_menu);
         boton1 = findViewById(R.id.boton1_menu);
-        db= new Database(this);
-        arrayList= db.getMatches();
+        boton2 = findViewById(R.id.boton2_menu);
+        db = new Database(this);
+        arrayList = db.getMatches();
 
-        adapter = ArrayAdapter.createFromResource(this,
-                R.array.main_menu_options, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter;
+        if (currentUser != null && currentUser.getRole().equals("Asistente")) {
+            adapter = ArrayAdapter.createFromResource(this,
+                    R.array.asistente_options, android.R.layout.simple_spinner_item);
+        } else {
+            adapter = ArrayAdapter.createFromResource(this,
+                    R.array.entrenador_options, android.R.layout.simple_spinner_item);
+        }
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spin1.setAdapter(adapter);
 
@@ -67,8 +70,6 @@ public class MainMenuActivity extends AppCompatActivity {
                 // Do nothing
             }
         });
-
-        boton1 = findViewById(R.id.boton1_menu);
         boton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,6 +119,18 @@ public class MainMenuActivity extends AppCompatActivity {
                     default:
                         break;
                 }
+            }
+        });
+
+        boton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Aquí puedes borrar la información del usuario actualmente registrado si es necesario
+
+                // Redirige al usuario a LoginActivity
+                changeActivity = new Intent(MainMenuActivity.this, LogInActivity.class);
+                startActivity(changeActivity);
+                finish();  // Esto cierra MainMenuActivity
             }
         });
 

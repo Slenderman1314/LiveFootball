@@ -2,13 +2,12 @@ package ifp.project.livefootball.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.ArrayAdapter;
-
 import java.util.ArrayList;
-
 import ifp.project.livefootball.User;
 
 public class Database extends SQLiteOpenHelper {

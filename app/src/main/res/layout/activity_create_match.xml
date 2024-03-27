@@ -6,4 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".Match.CreateMatchActivity">
 
+    <ImageView
+        android:id="@+id/ima1_create_match"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="120dp"
+        android:layout_marginEnd="120dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/boton1_menu"
+        app:srcCompat="@drawable/livefootbal_logo" />
+
+    <Button
+        android:id="@+id/boton1_create_match"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="159dp"
+        android:layout_marginEnd="158dp"
+        android:layout_marginBottom="50dp"
+        android:text="Inicio"
+        app:layout_constraintBottom_toTopOf="@+id/ima1_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,12 +3,13 @@ package ifp.project.livefootball.Account;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,43 +20,44 @@ import ifp.project.livefootball.User;
 public class RegisterActivity extends AppCompatActivity {
     private Database db;
     protected Intent changeActivity;
-    private TextView textView1;
-    private TextView textView2;
-    private EditText editText1;
-    private TextView textView3;
-    private EditText editText2;
-    private TextView textView4;
-    private RadioButton radioButton1;
-    private RadioButton radioButton2;
-    private Button button1;
-    private Button button2;
-    private String TextContent1;
-    private String TextContent2;
-    private String RadioValor;
+    private TextView label1;
+    private TextView label2;
+    private EditText caja1;
+    private TextView label3;
+    private EditText caja2;
+    private TextView label4;
+    private RadioButton radioBoton1;
+    private RadioButton radioBoton2;
+    private Button boton1;
+    private Button boton2;
+    private ImageView ima1;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        textView1 = (TextView) findViewById(R.id.textView1_register);
-        textView2 = (TextView) findViewById(R.id.textView2_register);
-        editText1 = (EditText) findViewById(R.id.editText1_register);
-        textView3 = (TextView) findViewById(R.id.textView3_register);
-        editText2 = (EditText) findViewById(R.id.editText2_register);
-        textView4 = (TextView) findViewById(R.id.textView4_register);
-        radioButton1 = (RadioButton) findViewById(R.id.radioButton1_register);
-        radioButton2 = (RadioButton) findViewById(R.id.radioButton2_register);
-        button1 = (Button) findViewById(R.id.button1_register);
-        button2 = (Button) findViewById(R.id.button2_register);
+        label1 = (TextView) findViewById(R.id.label1_register);
+        label2 = (TextView) findViewById(R.id.label2_register);
+        caja1 = (EditText) findViewById(R.id.caja1_register);
+        label3 = (TextView) findViewById(R.id.label3_register);
+        caja2 = (EditText) findViewById(R.id.caja2_register);
+        label4 = (TextView) findViewById(R.id.label4_register);
+        radioBoton1 = (RadioButton) findViewById(R.id.radioBoton1_register);
+        radioBoton2 = (RadioButton) findViewById(R.id.radioBoton2_register);
+        boton1 = (Button) findViewById(R.id.boton1_register);
+        boton2 = (Button) findViewById(R.id.boton2_register);
+        ima1 = (ImageView) findViewById(R.id.ima1_logo);
 
         db = new Database(this);
 
-        button1.setOnClickListener(new View.OnClickListener() {
+        boton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = editText1.getText().toString();
-                String pass = editText2.getText().toString();
-                String role = radioButton1.isChecked() ? "Asistente" : radioButton2.isChecked() ? "Entrenador" : "";
+                String name = caja1.getText().toString();
+                String pass = caja2.getText().toString();
+                String role = radioBoton1.isChecked() ? "Asistente" : radioBoton2.isChecked() ? "Entrenador" : "";
 
                 if (name.equals("") || pass.equals("") || role.equals("")) {
                     Toast.makeText(RegisterActivity.this, "Debes rellenar ambos apartados y seleccionar un rol", Toast.LENGTH_SHORT).show();
@@ -70,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        button2.setOnClickListener(new View.OnClickListener() {
+        boton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 changeActivity = new Intent(RegisterActivity.this, LogInActivity.class);
