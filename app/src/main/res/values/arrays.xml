@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="main_menu_options">
+        <item>crear partido</item>
+        <item>crear equipo</item>
+        <item>editar partido</item>
+        <item>editar equipo</item>
+        <item>crear jugador</item>
+        <item>editar jugador</item>
+        <item>mostrar equipo</item>
+        <!-- Añade más elementos aquí si es necesario -->
+    </array>
+</resources>

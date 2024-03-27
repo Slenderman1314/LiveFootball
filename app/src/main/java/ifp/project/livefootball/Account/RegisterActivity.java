@@ -37,18 +37,18 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        textView1= (TextView) findViewById(R.id.textView1_register);
-        textView2= (TextView) findViewById(R.id.textView2_register);
-        editText1= (EditText) findViewById(R.id.editText1_register);
-        textView3= (TextView) findViewById(R.id.textView3_register);
-        editText2= (EditText) findViewById(R.id.editText2_register);
-        textView4= (TextView) findViewById(R.id.textView4_register);
-        radioButton1= (RadioButton) findViewById(R.id.radioButton1_register);
-        radioButton2= (RadioButton) findViewById(R.id.radioButton2_register);
-        button1= (Button) findViewById(R.id.button1_register);
-        button2= (Button) findViewById(R.id.button2_register);
+        textView1 = (TextView) findViewById(R.id.textView1_register);
+        textView2 = (TextView) findViewById(R.id.textView2_register);
+        editText1 = (EditText) findViewById(R.id.editText1_register);
+        textView3 = (TextView) findViewById(R.id.textView3_register);
+        editText2 = (EditText) findViewById(R.id.editText2_register);
+        textView4 = (TextView) findViewById(R.id.textView4_register);
+        radioButton1 = (RadioButton) findViewById(R.id.radioButton1_register);
+        radioButton2 = (RadioButton) findViewById(R.id.radioButton2_register);
+        button1 = (Button) findViewById(R.id.button1_register);
+        button2 = (Button) findViewById(R.id.button2_register);
 
-        db= new Database(this);
+        db = new Database(this);
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,15 +70,13 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        button2.setOnClickListener(new View.OnClickListener(){
+        button2.setOnClickListener(new View.OnClickListener() {
             @Override
-
-            public void onClick(View view){
+            public void onClick(View view) {
                 changeActivity = new Intent(RegisterActivity.this, LogInActivity.class);
                 finish();
                 startActivity(changeActivity);
             }
-
         });
 
     }
