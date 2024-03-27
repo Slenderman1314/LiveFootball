@@ -34,10 +34,10 @@ public class MainMenuActivity extends AppCompatActivity {
     private ArrayList <String> arrayList= new ArrayList<String>();
     private ArrayAdapter <String> arrayAdapter;
     private ImageView ima1;
-    private String textContent;
     private String selectedOption;
     private Spinner spin1;
     private Button boton1;
+    private ArrayAdapter<CharSequence> adapter;
     protected Intent changeActivity;
 
     @Override
@@ -51,11 +51,10 @@ public class MainMenuActivity extends AppCompatActivity {
         db= new Database(this);
         arrayList= db.getMatches();
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        adapter = ArrayAdapter.createFromResource(this,
                 R.array.main_menu_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spin1.setAdapter(adapter);
-        arrayAdapter= new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayList);
 
         spin1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -74,43 +73,43 @@ public class MainMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 switch (selectedOption) {
-                    case "crear partido":
+                    case "Crear partido":
                         // Start activity to create match
                         changeActivity = new Intent(MainMenuActivity.this, CreateMatchActivity.class);
                         finish();
                         startActivity(changeActivity);
                         break;
-                    case "crear equipo":
+                    case "Crear equipo":
                         // Start activity to create team
                         changeActivity = new Intent(MainMenuActivity.this, CreateTeamActivity.class);
                         finish();
                         startActivity(changeActivity);
                         break;
-                    case "editar partido":
+                    case "Editar partido":
                         // Start activity to create team
                         changeActivity = new Intent(MainMenuActivity.this, EditMatchActivity.class);
                         finish();
                         startActivity(changeActivity);
                         break;
-                    case "editar equipo":
+                    case "Editar equipo":
                         // Start activity to create team
                         changeActivity = new Intent(MainMenuActivity.this, EditTeamActivity.class);
                         finish();
                         startActivity(changeActivity);
                         break;
-                    case "crear jugador":
+                    case "Crear jugador":
                         // Start activity to create team
                         changeActivity = new Intent(MainMenuActivity.this, PlayerCreateActivity.class);
                         finish();
                         startActivity(changeActivity);
                         break;
-                    case "editar jugador":
+                    case "Editar jugador":
                         // Start activity to create team
                         changeActivity = new Intent(MainMenuActivity.this, EditPlayerActivity.class);
                         finish();
                         startActivity(changeActivity);
                         break;
-                    case "mostrar equipo":
+                    case "Mostrar equipo":
                         // Start activity to create team
                         changeActivity = new Intent(MainMenuActivity.this, ListTeamActivity.class);
                         finish();
