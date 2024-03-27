@@ -25,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         db= new Database(this);
+        System.out.println("*****************************************");
+        db.printUsers();
+        System.out.println("*****************************************");
         ima1 = (ImageView) findViewById(R.id.ima1_main);
 
         Toast.makeText(MainActivity.this, "Se está iniciando...", Toast.LENGTH_SHORT).show();

@@ -1,5 +1,6 @@
 package ifp.project.livefootball.Database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
+
+import ifp.project.livefootball.User;
 
 public class Database extends SQLiteOpenHelper {
 
@@ -18,7 +21,7 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS teams (idTeams INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL , name VARCHAR)");
         db.execSQL("CREATE TABLE IF NOT EXISTS players (idPlayer INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, playerName VARCHAR ,idTeam INTEGER, team VARCHAR, FOREIGN KEY (idTeam) REFERENCES teams(idTeams))");
         db.execSQL("CREATE TABLE IF NOT EXISTS footballMatch (idMatch INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL , idLocalTeam teams, localScore INTEGER,guestScore INTEGER , idGuestTeam teams, localTeamName String, guestTeamName, localYellowCards INTEGER, guestYellowCards INTEGER, FOREIGN KEY (idLocalTeam) REFERENCES teams(idTeams), FOREIGN KEY (idGuestTeam) REFERENCES teams(idTeams))");
-        db.execSQL("CREATE TABLE IF NOT EXISTS user (idUser INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, userName VARCHAR, password VARCHAR, userType VARCHAR)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS users (idUser INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, userName VARCHAR, password VARCHAR, userType VARCHAR)");
     }
 
     @Override
@@ -26,35 +29,54 @@ public class Database extends SQLiteOpenHelper {
 
     }
 
-    public String getPass(String name, String pass) {
+    public String getPass(String name) {
         SQLiteDatabase db = this.getReadableDatabase();
-        db.execSQL("SELECT username FROM user");
-        if (db.equals(name)) {
-            db.execSQL("SELECT password FROM user WHERE userName LIKE " + name);
-            pass = db.toString();
+        Cursor cursor = db.rawQuery("SELECT password FROM users WHERE userName = ?", new String[]{name});
+
+        if (cursor.moveToFirst()) {
+            int nameColumnIndex = cursor.getColumnIndex("password");
+            if (nameColumnIndex != -1) {
+                return cursor.getString(nameColumnIndex);
+            }
+            return cursor.getString(nameColumnIndex);
+        } else {
+            return null;
         }
-        return pass;
     }
 
     public String getUser(String name) {
         SQLiteDatabase db = this.getReadableDatabase();
-        db.execSQL("SELECT name FROM user");
-        if (db.equals(name)) {
-            name = db.toString();
+        Cursor cursor = db.rawQuery("SELECT * FROM users WHERE userName = ?", new String[]{name});
+
+        if (cursor.moveToFirst()) {
+            int nameColumnIndex = cursor.getColumnIndex("userName");
+            if (nameColumnIndex != -1) {
+                return cursor.getString(nameColumnIndex);
+            }
         }
-        return name;
+        cursor.close();
+        return null;
     }
 
-    public void insertUser(String name, String pass, String role) {
+    public void insertUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("INSERT INTO users VALUES (null, name, pass, role)");
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("userName", user.getName());
+        contentValues.put("password", user.getPass());
+        contentValues.put("userType", user.getRole());
+        db.insert("users", null, contentValues);
     }
 
     public ArrayList<String> getMatches() {
         ArrayList<String> matchList = new ArrayList<String>();
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = null;
-        cursor = db.rawQuery("SELECT localScore, guestScore FROM footballMatch INNER JOIN teams ON footballMatch.localTeamName= teams.name INNER JOIN teams ON footballMatch.guestTeamName= teams.name WHERE idGuestTeam= idTeam AND idLocalTeam= idTeam", null);
+        String query = "SELECT fm.localScore, fm.guestScore " +
+                "FROM footballMatch fm " +
+                "INNER JOIN teams t1 ON fm.localTeamName = t1.name " +
+                "INNER JOIN teams t2 ON fm.guestTeamName = t2.name " +
+                "WHERE t1.idTeams = t2.idTeams";
+        cursor = db.rawQuery(query, null);
 
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -63,8 +85,10 @@ public class Database extends SQLiteOpenHelper {
                 cursor.moveToNext();
             }
         }
+        cursor.close();
         return matchList;
     }
+
 
     public ArrayList<String> getTeams() {
         ArrayList<String> teamList = new ArrayList<String>();
@@ -96,5 +120,24 @@ public class Database extends SQLiteOpenHelper {
             }
         }
         return playerList;
+    }
+
+    public void printUsers() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM users", null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int nameColumnIndex = cursor.getColumnIndex("userName");
+                int passColumnIndex = cursor.getColumnIndex("password");
+                int roleColumnIndex = cursor.getColumnIndex("userType");
+
+                String name = cursor.getString(nameColumnIndex);
+                String pass = cursor.getString(passColumnIndex);
+                String role = cursor.getString(roleColumnIndex);
+                System.out.println("User: " + name + ", Pass: " + pass + ", Role: " + role);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
     }
 }

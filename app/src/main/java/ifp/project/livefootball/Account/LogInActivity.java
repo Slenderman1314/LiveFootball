@@ -15,6 +15,7 @@ import android.widget.Toast;
 import ifp.project.livefootball.Database.Database;
 import ifp.project.livefootball.MainMenu.MainMenuActivity;
 import ifp.project.livefootball.R;
+import ifp.project.livefootball.User;
 
 public class LogInActivity extends AppCompatActivity {
     private TextView textView1;
@@ -50,18 +51,20 @@ public class LogInActivity extends AppCompatActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                textContent1 = editText1.getText().toString();
-                textContent2 = editText2.getText().toString();
+                String name = editText1.getText().toString();
+                String pass = editText2.getText().toString();
+                String role = "rolUsuario"; // Define el rol aquí
 
-                if (textContent1.equals("") || textContent2.equals("")) {
+                if (name.equals("") || pass.equals("")) {
                     Toast toast = Toast.makeText(LogInActivity.this, "Debe indicar usuario y contraseña", Toast.LENGTH_SHORT);
                     toast.show();
                 } else {
+                    User user = new User(name, pass, role);
+                    db.insertUser(user);
 
-                    if (db.getUser(textContent1).equals(textContent1) && db.getPass(textContent1, textContent2).equals(textContent2)) {
-
+                    if (db.getUser(name).equals(name) && db.getPass(name).equals(pass)) {
                         Toast.makeText(LogInActivity.this, "Tienes acceso", Toast.LENGTH_SHORT).show();
-                        changeActivity = new Intent(LogInActivity.this, MainMenuActivity.class);
+                        Intent changeActivity = new Intent(LogInActivity.this, MainMenuActivity.class);
                         finish();
                         startActivity(changeActivity);
                     } else {

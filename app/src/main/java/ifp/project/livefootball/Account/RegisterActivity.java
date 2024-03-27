@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import ifp.project.livefootball.Database.Database;
 import ifp.project.livefootball.R;
+import ifp.project.livefootball.User;
 
 public class RegisterActivity extends AppCompatActivity {
     private Database db;
@@ -52,28 +53,19 @@ public class RegisterActivity extends AppCompatActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TextContent1= editText1.getText().toString();
-                TextContent2= editText2.getText().toString();
+                String name = editText1.getText().toString();
+                String pass = editText2.getText().toString();
+                String role = radioButton1.isChecked() ? "Asistente" : radioButton2.isChecked() ? "Entrenador" : "";
 
-
-                if ((TextContent1.equals("") || TextContent2.equals("") ) || (TextContent1.equals("") && TextContent2.equals("") )){
-                    Toast.makeText(RegisterActivity.this, "Debes rellenar ambos apartados", Toast.LENGTH_SHORT).show();
+                if (name.equals("") || pass.equals("") || role.equals("")) {
+                    Toast.makeText(RegisterActivity.this, "Debes rellenar ambos apartados y seleccionar un rol", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (radioButton1.isChecked()== true){
-                        db.insertUser(TextContent1, TextContent2, "Asistente");
-                        Toast.makeText(RegisterActivity.this, "La cuenta se creo con exito", Toast.LENGTH_SHORT).show();
-                        changeActivity= new Intent(RegisterActivity.this, LogInActivity.class);
-                        finish();
-                        startActivity(changeActivity);
-                    } else if(radioButton2.isChecked()== true){
-                        db.insertUser(TextContent1, TextContent2, "Entrenador");
-                        Toast.makeText(RegisterActivity.this, "La cuenta se creo con exito", Toast.LENGTH_SHORT).show();
-                        changeActivity= new Intent(RegisterActivity.this, LogInActivity.class);
-                        finish();
-                        startActivity(changeActivity);
-                    } else{
-                        Toast.makeText(RegisterActivity.this, "Debes indicar cual es el rol que que debes ejercer en la aplicacón.", Toast.LENGTH_SHORT).show();
-                    }
+                    User user = new User(name, pass, role);
+                    db.insertUser(user);
+                    Toast.makeText(RegisterActivity.this, "La cuenta se creo con exito", Toast.LENGTH_SHORT).show();
+                    Intent changeActivity = new Intent(RegisterActivity.this, LogInActivity.class);
+                    finish();
+                    startActivity(changeActivity);
                 }
             }
         });
