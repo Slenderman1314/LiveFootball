@@ -66,7 +66,7 @@ public class Database extends SQLiteOpenHelper {
         db.insert("users", null, contentValues);
     }
 
-    public ArrayList<String> getMatches() {
+    /**public ArrayList<String> getMatches() {
         ArrayList<String> matchList = new ArrayList<String>();
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = null;
@@ -81,6 +81,27 @@ public class Database extends SQLiteOpenHelper {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 matchList.add(cursor.getString(0) + "-" + cursor.getString(1));
+                cursor.moveToNext();
+            }
+        }
+        cursor.close();
+        return matchList;
+    }**/
+
+    public ArrayList<String> getMatches() {
+        ArrayList<String> matchList = new ArrayList<String>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = null;
+        String query = "SELECT fm.idMatch, t1.name, t2.name " +
+                "FROM footballMatch fm " +
+                "INNER JOIN teams t1 ON fm.idLocalTeam = t1.idTeams " +
+                "INNER JOIN teams t2 ON fm.idGuestTeam = t2.idTeams";
+        cursor = db.rawQuery(query, null);
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                matchList.add("ID: " + cursor.getString(0) + ", Local Team: " + cursor.getString(1) + ", Guest Team: " + cursor.getString(2));
                 cursor.moveToNext();
             }
         }

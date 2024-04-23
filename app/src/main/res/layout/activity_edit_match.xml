@@ -6,6 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".Match.EditMatchActivity">
 
+    <ListView
+        android:id="@+id/lista1_editMatch"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/boton1_updateMatch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/caja2_editEquipoVisitante"
+        app:layout_constraintVertical_bias="0.0" />
+
     <Button
         android:id="@+id/boton2_inicioEditMatch"
         android:layout_width="0dp"

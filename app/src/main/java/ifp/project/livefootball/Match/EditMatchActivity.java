@@ -7,9 +7,13 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import ifp.project.livefootball.Database.Database;
 import ifp.project.livefootball.MainMenu.MainMenuActivity;
@@ -23,6 +27,8 @@ public class EditMatchActivity extends AppCompatActivity {
     private Database db;
     private int matchId;
     protected Intent changeActivity;
+    private ListView listView;
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +42,11 @@ public class EditMatchActivity extends AppCompatActivity {
         caja2 = findViewById(R.id.caja2_editEquipoVisitante);
         boton1 = findViewById(R.id.boton1_updateMatch);
         boton2 = findViewById(R.id.boton2_inicioEditMatch);
+        listView = findViewById(R.id.lista1_editMatch);
 
-        // Supongamos que obtienes el ID del partido de alguna manera, por ejemplo, a través de un Intent
-        //matchId = getIntent().getIntExtra("MATCH_ID", -1);
+        ArrayList<String> matches = db.getMatches();
+        adapter = new ArrayAdapter<>(EditMatchActivity.this, android.R.layout.simple_list_item_1, matches);
+        listView.setAdapter(adapter);
 
         boton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,8 +54,6 @@ public class EditMatchActivity extends AppCompatActivity {
                 int matchId =Integer.parseInt(caja0.getText().toString());
                 String localTeam = caja1.getText().toString();
                 String guestTeam = caja2.getText().toString();
-
-                // Aquí puedes agregar más validaciones si es necesario
 
                 SQLiteDatabase database = db.getWritableDatabase();
                 ContentValues contentValues = new ContentValues();
