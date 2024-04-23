@@ -15,19 +15,58 @@
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.437"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/boton1_menu"
         app:srcCompat="@drawable/livefootbal_logo" />
 
     <Button
-        android:id="@+id/boton1_create_match"
+        android:id="@+id/boton1_inicioCreateMatch"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="158dp"
+        android:layout_marginEnd="158dp"
+        android:layout_marginBottom="32dp"
+        android:text="Inicio"
+        app:layout_constraintBottom_toTopOf="@+id/ima1_create_match"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/registerMatchButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="159dp"
-        android:layout_marginEnd="158dp"
-        android:layout_marginBottom="50dp"
-        android:text="Inicio"
-        app:layout_constraintBottom_toTopOf="@+id/ima1_logo"
+        android:layout_marginBottom="24dp"
+        android:text="Registrar partido"
+        app:layout_constraintBottom_toTopOf="@+id/boton1_inicioCreateMatch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/caja1_createEquipoLocal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:hint="Nombre del equipo local"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/caja2_createEquipoVisitante"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:hint="Nombre del equipo visitante"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/caja1_createEquipoLocal" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
