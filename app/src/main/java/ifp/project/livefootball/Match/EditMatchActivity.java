@@ -47,6 +47,7 @@ public class EditMatchActivity extends AppCompatActivity {
         ArrayList<String> matches = db.getMatches();
         adapter = new ArrayAdapter<>(EditMatchActivity.this, android.R.layout.simple_list_item_1, matches);
         listView.setAdapter(adapter);
+        System.out.println("Partidos recuperados: " + matches); // Agrega esta línea
 
         boton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +68,10 @@ public class EditMatchActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(EditMatchActivity.this, "Error al actualizar el partido", Toast.LENGTH_SHORT).show();
                 }
+                changeActivity = new Intent(EditMatchActivity.this, MainMenuActivity.class);
+                startActivity(changeActivity);
+                finish();  // Esto cierra MainMenuActivity
+
             }
         });
 

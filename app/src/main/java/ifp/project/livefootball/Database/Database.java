@@ -66,48 +66,25 @@ public class Database extends SQLiteOpenHelper {
         db.insert("users", null, contentValues);
     }
 
-    /**public ArrayList<String> getMatches() {
-        ArrayList<String> matchList = new ArrayList<String>();
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = null;
-        String query = "SELECT fm.localScore, fm.guestScore " +
-                "FROM footballMatch fm " +
-                "INNER JOIN teams t1 ON fm.localTeamName = t1.name " +
-                "INNER JOIN teams t2 ON fm.guestTeamName = t2.name " +
-                "WHERE t1.idTeams = t2.idTeams";
-        cursor = db.rawQuery(query, null);
-
-        if (cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                matchList.add(cursor.getString(0) + "-" + cursor.getString(1));
-                cursor.moveToNext();
-            }
-        }
-        cursor.close();
-        return matchList;
-    }**/
-
     public ArrayList<String> getMatches() {
         ArrayList<String> matchList = new ArrayList<String>();
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = null;
-        String query = "SELECT fm.idMatch, t1.name, t2.name " +
-                "FROM footballMatch fm " +
-                "INNER JOIN teams t1 ON fm.idLocalTeam = t1.idTeams " +
-                "INNER JOIN teams t2 ON fm.idGuestTeam = t2.idTeams";
+        String query = "SELECT fm.idMatch, fm.idLocalTeam, fm.idGuestTeam FROM footballMatch fm";
         cursor = db.rawQuery(query, null);
 
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                matchList.add("ID: " + cursor.getString(0) + ", Local Team: " + cursor.getString(1) + ", Guest Team: " + cursor.getString(2));
+                String matchInfo = "ID Partido: " + cursor.getString(0) + " - Equipo Local: " + cursor.getString(1) + " - Equipo Visitante: " + cursor.getString(2);
+                matchList.add(matchInfo);
                 cursor.moveToNext();
             }
         }
         cursor.close();
         return matchList;
     }
+
 
 
     public ArrayList<String> getTeams() {
