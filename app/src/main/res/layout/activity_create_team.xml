@@ -6,76 +6,70 @@
     android:layout_height="match_parent"
     tools:context=".Team.CreateTeamActivity">
 
-    <TextView
-        android:id="@+id/textView1_createTeam"
-        android:layout_width="255dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="72dp"
-        android:text="Creacion de los equipos"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView2_createTeam"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/textView2_createTeam"
-        android:layout_width="233dp"
-        android:layout_height="30dp"
-        android:text="El nombre del Equipo: "
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.179"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="132dp" />
-
-    <EditText
-        android:id="@+id/editText1_createTeam"
-        android:layout_width="358dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="28dp"
-        android:ems="10"
-        android:hint="Nombre del Equipo..."
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/textView3_createTeam"
-        app:layout_constraintTop_toBottomOf="@+id/textView2_createTeam"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="32dp" />
-
-    <TextView
-        android:id="@+id/textView3_createTeam"
-        android:layout_width="190dp"
-        android:layout_height="33dp"
+    <Button
+        android:id="@+id/boton1_inicioCreateTeam"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="158dp"
+        android:layout_marginEnd="158dp"
         android:layout_marginBottom="32dp"
-        android:text="Jugadores:"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/listView1_createTeam"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.144"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ListView
-        android:id="@+id/listView1_createTeam"
-        android:layout_width="410dp"
-        android:layout_height="257dp"
-        android:layout_marginBottom="56dp"
-        android:choiceMode="multipleChoice"
-        app:layout_constraintBottom_toTopOf="@+id/button1_createTeam"
+        android:text="Inicio"
+        app:layout_constraintBottom_toTopOf="@+id/ima1_create_match"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/ima1_create_match"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="120dp"
+        android:layout_marginEnd="120dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/livefootbal_logo" />
+
+    <TextView
+        android:id="@+id/textView1_createTeam"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="Nombre del Equipo:"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText1_createTeam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:hint="Nombre del Equipo..."
+        app:layout_constraintBottom_toTopOf="@+id/button1_createTeam"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView1_createTeam"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/button1_createTeam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="44dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="116dp"
+        android:layout_marginEnd="116dp"
+        android:layout_marginBottom="4dp"
+        android:text="Registrar Equipo"
+        app:layout_constraintBottom_toTopOf="@+id/boton1_inicioCreateTeam"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

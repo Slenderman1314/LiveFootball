@@ -2,50 +2,62 @@ package ifp.project.livefootball.Team;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-
-import java.util.ArrayList;
-import java.util.Arrays;
+import android.widget.Toast;
 
 import ifp.project.livefootball.Database.Database;
+import ifp.project.livefootball.MainMenu.MainMenuActivity;
+import ifp.project.livefootball.Player.PlayerCreateActivity;
 import ifp.project.livefootball.R;
 
 public class CreateTeamActivity extends AppCompatActivity {
 
-    private EditText editText1;
-    private ListView listView1;
-
     private Database db;
+    private EditText caja1;
+    private Button boton1;
+    private Button boton2;
     protected Intent changeActivity;
-
-    private String textContent;
-    private ArrayList <String> arrayList= new ArrayList<String>();
-    private ArrayAdapter <String> arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_team);
-        editText1= (EditText) findViewById(R.id.editText1_createTeam);
-        listView1= (ListView) findViewById(R.id.listView1_createTeam);
 
-        db= new Database(this);
-        arrayList= db.getPlayers();
+        db = new Database(this);
 
-        arrayAdapter= new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayList);
-        listView1.setAdapter(arrayAdapter);
+        caja1 = findViewById(R.id.editText1_createTeam);
+        boton1 = findViewById(R.id.button1_createTeam);
+        boton2 = findViewById(R.id.boton1_inicioCreateTeam);
 
-        listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        boton1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onClick(View v) {
+                String teamName = caja1.getText().toString();
+                if (!teamName.isEmpty()) {
+                    SQLiteDatabase dbWrite = db.getWritableDatabase();
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put("name", teamName);
+                    dbWrite.insert("teams", null, contentValues);
+                    Toast.makeText(CreateTeamActivity.this, "Equipo registrado con éxito", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(CreateTeamActivity.this, "Por favor, ingresa el nombre del equipo", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
+        boton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Redirige al usuario al menú
+                changeActivity = new Intent(CreateTeamActivity.this, MainMenuActivity.class);
+                startActivity(changeActivity);
+                finish();
             }
         });
     }
