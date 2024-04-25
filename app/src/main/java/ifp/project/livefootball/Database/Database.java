@@ -103,19 +103,28 @@ public class Database extends SQLiteOpenHelper {
         return teamList;
     }
 
+    public String getPlayerTeam(String playerName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT team FROM players WHERE playerName = ?", new String[]{playerName});
+        if (cursor.moveToFirst()) {
+            return cursor.getString(0);
+        }
+        cursor.close();
+        return null;
+    }
+
+
     public ArrayList<String> getPlayers() {
         ArrayList<String> playerList = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = null;
-        cursor = db.rawQuery("SELECT playerName FROM players INNER JOIN teams ON player.team= teams.name WHERE idTeam= idTeams", null);
-        cursor.moveToLast();
-        if (cursor.getCount() > 0) {
-            cursor.moveToFirst();
+        Cursor cursor = db.rawQuery("SELECT playerName FROM players", null);
+        if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
-                playerList.add(cursor.getString(0) + "--" + cursor.getString(1));
+                playerList.add(cursor.getString(0));
                 cursor.moveToNext();
             }
         }
+        cursor.close();
         return playerList;
     }
 
