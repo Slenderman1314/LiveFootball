@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".Account.RegisterActivity">
 
+    <ImageView
+        android:id="@+id/ima1_playerEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="120dp"
+        android:layout_marginEnd="120dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/livefootbal_logo" />
+
     <TextView
         android:id="@+id/label1_register"
         android:layout_width="0dp"
@@ -121,24 +133,24 @@
         android:id="@+id/boton1_register"
         android:layout_width="161dp"
         android:layout_height="50dp"
+        android:layout_marginStart="108dp"
+        android:layout_marginEnd="108dp"
+        android:layout_marginBottom="4dp"
         android:text="Registrarse"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/boton2_register"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup1_register" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/boton2_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="159dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="162dp"
-        android:layout_marginBottom="39dp"
+        android:layout_marginStart="158dp"
+        android:layout_marginEnd="158dp"
+        android:layout_marginBottom="8dp"
         android:text="Volver"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/ima1_playerEdit"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/boton1_register" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

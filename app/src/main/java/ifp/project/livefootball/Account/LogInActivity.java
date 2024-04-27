@@ -52,13 +52,17 @@ public class LogInActivity extends AppCompatActivity {
                     Toast.makeText(LogInActivity.this, "Debe indicar usuario y contraseña", Toast.LENGTH_SHORT).show();
                 } else {
                     // Comprueba si el usuario existe y si la contraseña es correcta
-                    if (db.getUser(name).equals(name) && db.getPass(name).equals(pass)) {
-                        Toast.makeText(LogInActivity.this, "Tienes acceso", Toast.LENGTH_SHORT).show();
-                        changeActivity = new Intent(LogInActivity.this, MainMenuActivity.class);
-                        finish();
-                        startActivity(changeActivity);
+                    if (db.getUser(name) != null && db.getPass(name) != null) {
+                        if (db.getUser(name).equals(name) && db.getPass(name).equals(pass)) {
+                            Toast.makeText(LogInActivity.this, "Tienes acceso", Toast.LENGTH_SHORT).show();
+                            changeActivity = new Intent(LogInActivity.this, MainMenuActivity.class);
+                            finish();
+                            startActivity(changeActivity);
+                        } else {
+                            Toast.makeText(LogInActivity.this, "Usuario y/o contraseña erróneos", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-                        Toast.makeText(LogInActivity.this, "Usuario y/o contraseña erróneos", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LogInActivity.this, "El usuario no existe", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
