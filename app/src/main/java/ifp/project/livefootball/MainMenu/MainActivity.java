@@ -1,4 +1,4 @@
-package ifp.project.livefootball;
+package ifp.project.livefootball.MainMenu;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,9 +11,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import ifp.project.livefootball.Account.LogInActivity;
-import ifp.project.livefootball.Account.RegisterActivity;
 import ifp.project.livefootball.Database.Database;
-import ifp.project.livefootball.MainMenu.MainMenuActivity;
+import ifp.project.livefootball.R;
 
 public class MainActivity extends AppCompatActivity {
 

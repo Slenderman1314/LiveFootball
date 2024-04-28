@@ -3,7 +3,6 @@ package ifp.project.livefootball.Account;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 
 import ifp.project.livefootball.Database.Database;
 import ifp.project.livefootball.R;
-import ifp.project.livefootball.User;
 
 public class RegisterActivity extends AppCompatActivity {
     private Database db;

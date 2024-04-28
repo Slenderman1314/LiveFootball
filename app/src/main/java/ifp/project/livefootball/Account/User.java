@@ -1,4 +1,4 @@
-package ifp.project.livefootball;
+package ifp.project.livefootball.Account;
 
 public class User {
     private String name;

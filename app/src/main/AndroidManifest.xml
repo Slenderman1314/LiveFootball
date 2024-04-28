@@ -42,7 +42,7 @@
             android:name="ifp.project.livefootball.MainMenu.MainMenuActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".MainMenu.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

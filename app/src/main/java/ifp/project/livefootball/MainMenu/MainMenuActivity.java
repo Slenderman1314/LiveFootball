@@ -21,7 +21,7 @@ import ifp.project.livefootball.Database.Database;
 import ifp.project.livefootball.Team.CreateTeamActivity;
 import ifp.project.livefootball.Team.EditTeamActivity;
 import ifp.project.livefootball.Team.ListTeamActivity;
-import ifp.project.livefootball.User;
+import ifp.project.livefootball.Account.User;
 
 public class MainMenuActivity extends AppCompatActivity {
     private Database db;
