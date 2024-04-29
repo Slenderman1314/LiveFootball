@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import ifp.project.livefootball.Database.Database;
 import ifp.project.livefootball.MainMenu.MainMenuActivity;
 import ifp.project.livefootball.R;
+import ifp.project.livefootball.Team.Teams;
 
 public class CreateMatchActivity extends AppCompatActivity {
     private ImageView ima1;
@@ -48,11 +49,12 @@ public class CreateMatchActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(CreateMatchActivity.this, android.R.layout.simple_list_item_1, matches);
         listView.setAdapter(adapter);
 
-        ArrayList<String> teams = db.getTeams();
-        teams.add(0, "Seleccione equipo");
-        ArrayAdapter<String> teamAdapter = new ArrayAdapter<>(CreateMatchActivity.this, android.R.layout.simple_spinner_item, teams);
+        ArrayList<Teams> teams = db.getTeams();
+        teams.add(0, new Teams(0, "Seleccione equipo")); // Agregar un objeto Teams con id 0 y nombre "Seleccione equipo"
+        ArrayAdapter<Teams> teamAdapter = new ArrayAdapter<>(CreateMatchActivity.this, android.R.layout.simple_spinner_item, teams);
         localTeamSpinner.setAdapter(teamAdapter);
         guestTeamSpinner.setAdapter(teamAdapter);
+
 
         boton1.setOnClickListener(new View.OnClickListener() {
             @Override

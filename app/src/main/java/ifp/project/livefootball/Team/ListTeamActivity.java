@@ -20,7 +20,7 @@ import ifp.project.livefootball.R;
 public class ListTeamActivity extends AppCompatActivity {
 
     private Database db;
-    private ArrayList<String> arrayList;
+    private ArrayList<Teams> arrayList;
     private ArrayAdapter<String> arrayAdapter;
     private ListView listView1;
     private Button boton1;
@@ -37,7 +37,7 @@ public class ListTeamActivity extends AppCompatActivity {
         db = new Database(this);
         arrayList = db.getTeams();
 
-        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayList);
+        ArrayAdapter<Teams> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayList);
         listView1.setAdapter(arrayAdapter);
 
         listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {

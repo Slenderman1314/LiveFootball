@@ -1,8 +1,6 @@
 package ifp.project.livefootball.Player;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,12 +12,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import java.util.ArrayList;
-
 import ifp.project.livefootball.Database.Database;
 import ifp.project.livefootball.MainMenu.MainMenuActivity;
+import ifp.project.livefootball.Match.CreateMatchActivity;
 import ifp.project.livefootball.R;
+import ifp.project.livefootball.Team.Teams;
 
 public class EditPlayerActivity extends AppCompatActivity {
     private Database db;
@@ -28,6 +26,9 @@ public class EditPlayerActivity extends AppCompatActivity {
     private Button boton1;
     private Button boton2;
     protected Intent changeActivity;
+
+    private ArrayList<Teams> teams;
+    private ArrayList<String> players;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,25 +43,32 @@ public class EditPlayerActivity extends AppCompatActivity {
         boton1 = findViewById(R.id.button1_playerEdit);
         boton2 = findViewById(R.id.boton1_inicioplayerEdit);
 
-        ArrayList<String> players = db.getPlayers();
+        players = db.getPlayers();
         players.add(0, "Seleccione jugador");
-        ArrayAdapter<String> playerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, players);
+        ArrayAdapter<String> playerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, players);
         playerSpinner.setAdapter(playerAdapter);
 
-        ArrayList<String> teams = db.getTeams();
-        teams.add(0, "Seleccione equipo");
-        ArrayAdapter<String> teamAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, teams);
+        teams = db.getTeams();
+        teams.add(0, new Teams(0, "Seleccione equipo")); // Agregar un objeto Teams con id 0 y nombre "Seleccione equipo"
+        ArrayAdapter<Teams> teamAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, teams);
         teamSpinner.setAdapter(teamAdapter);
 
         playerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position != 0) {
-                    String playerName = playerSpinner.getSelectedItem().toString();
-                    caja1.setText(playerName);
+                    String selectedPlayerName = players.get(position);
+                    caja1.setText(selectedPlayerName);
 
-                    // Aquí debes obtener el equipo del jugador seleccionado
-                    String playerTeam = db.getPlayerTeam(playerName);
+                    // Obtener el equipo del jugador seleccionado
+                    String playerTeamName = db.getPlayerTeam(selectedPlayerName);
+                    Teams playerTeam = null;
+                    for (Teams team : teams) {
+                        if (team.getName().equals(playerTeamName)) {
+                            playerTeam = team;
+                            break;
+                        }
+                    }
                     int spinnerPosition = teamAdapter.getPosition(playerTeam);
                     teamSpinner.setSelection(spinnerPosition);
                 }
@@ -75,19 +83,17 @@ public class EditPlayerActivity extends AppCompatActivity {
         boton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String playerName = caja1.getText().toString();
+                String oldPlayerName = playerSpinner.getSelectedItem().toString();
+                String newPlayerName = caja1.getText().toString();
                 String teamName = teamSpinner.getSelectedItem() != null ? teamSpinner.getSelectedItem().toString() : "";
 
-                if (playerName.isEmpty()) {
+                if (newPlayerName.isEmpty()) {
                     Toast.makeText(EditPlayerActivity.this, "Por favor, ingresa el nombre del jugador", Toast.LENGTH_SHORT).show();
                 } else if (teamName.equals("Seleccione equipo")) {
                     Toast.makeText(EditPlayerActivity.this, "Por favor, selecciona un equipo", Toast.LENGTH_SHORT).show();
                 } else {
-                    SQLiteDatabase dbWrite = db.getWritableDatabase();
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put("playerName", playerName);
-                    contentValues.put("team", teamName);
-                    dbWrite.update("players", contentValues, "playerName = ?", new String[]{playerName});
+                    // Actualizar jugador en la base de datos
+                    db.updatePlayerTeam(oldPlayerName, newPlayerName, getTeamId(teamName), teamName);
                     Toast.makeText(EditPlayerActivity.this, "Jugador actualizado con éxito", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -103,5 +109,16 @@ public class EditPlayerActivity extends AppCompatActivity {
             }
         });
     }
+
+    // Obtener el ID del equipo seleccionado
+    private int getTeamId(String teamName) {
+        for (Teams team : teams) {
+            if (team.getName().equals(teamName)) {
+                return team.getId();
+            }
+        }
+        return -1; // Equipo no encontrado
+    }
 }
+
 

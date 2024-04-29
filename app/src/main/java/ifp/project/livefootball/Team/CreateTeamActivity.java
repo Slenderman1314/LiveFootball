@@ -1,19 +1,14 @@
 package ifp.project.livefootball.Team;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import ifp.project.livefootball.Database.Database;
 import ifp.project.livefootball.MainMenu.MainMenuActivity;
-import ifp.project.livefootball.Player.PlayerCreateActivity;
 import ifp.project.livefootball.R;
 
 public class CreateTeamActivity extends AppCompatActivity {
@@ -40,10 +35,7 @@ public class CreateTeamActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String teamName = caja1.getText().toString();
                 if (!teamName.isEmpty()) {
-                    SQLiteDatabase dbWrite = db.getWritableDatabase();
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put("name", teamName);
-                    dbWrite.insert("teams", null, contentValues);
+                    db.insertTeam(teamName);
                     Toast.makeText(CreateTeamActivity.this, "Equipo registrado con éxito", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(CreateTeamActivity.this, "Por favor, ingresa el nombre del equipo", Toast.LENGTH_SHORT).show();

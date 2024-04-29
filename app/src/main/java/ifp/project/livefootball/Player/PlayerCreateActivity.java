@@ -1,7 +1,6 @@
 package ifp.project.livefootball.Player;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,13 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import java.util.ArrayList;
-
 import ifp.project.livefootball.Database.Database;
 import ifp.project.livefootball.MainMenu.MainMenuActivity;
-import ifp.project.livefootball.Match.CreateMatchActivity;
 import ifp.project.livefootball.R;
+import ifp.project.livefootball.Team.Teams;
 
 public class PlayerCreateActivity extends AppCompatActivity {
 
@@ -41,9 +38,9 @@ public class PlayerCreateActivity extends AppCompatActivity {
         boton1 = findViewById(R.id.button1_playerCreate);
         boton2 = findViewById(R.id.boton1_inicioCreatePlayer);
 
-        ArrayList<String> teams = db.getTeams();
-        teams.add(0, "Seleccione equipo");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, teams);
+        ArrayList<Teams> teams = db.getTeams();
+        teams.add(0, new Teams(0, "Seleccione equipo")); // Agregar un objeto Teams con id 0 y nombre "Seleccione equipo"
+        ArrayAdapter<Teams> adapter = new ArrayAdapter<Teams>(this, android.R.layout.simple_spinner_item, teams);
         spinner1.setAdapter(adapter);
 
         boton1.setOnClickListener(new View.OnClickListener() {
@@ -57,11 +54,8 @@ public class PlayerCreateActivity extends AppCompatActivity {
                 } else if (teamName.equals("Seleccione equipo")) {
                     Toast.makeText(PlayerCreateActivity.this, "Por favor, selecciona un equipo", Toast.LENGTH_SHORT).show();
                 } else {
-                    SQLiteDatabase dbWrite = db.getWritableDatabase();
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put("playerName", playerName);
-                    contentValues.put("team", teamName);
-                    dbWrite.insert("players", null, contentValues);
+                    // Insertar jugador en la base de datos
+                    db.insertPlayer(playerName, getTeamId(teamName), teamName);
                     Toast.makeText(PlayerCreateActivity.this, "Jugador registrado con éxito", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -77,4 +71,17 @@ public class PlayerCreateActivity extends AppCompatActivity {
             }
         });
     }
+
+    // Obtener el ID del equipo seleccionado
+    private int getTeamId(String teamName) {
+        ArrayList<Teams> teamList = db.getTeams();
+        for (int i = 0; i < teamList.size(); i++) {
+            if (teamList.get(i).equals(teamName)) {
+                // El índice + 1 se considera como el ID del equipo
+                return i + 1;
+            }
+        }
+        return -1; // Equipo no encontrado
+    }
 }
+

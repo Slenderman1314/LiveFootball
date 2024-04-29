@@ -5,9 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import java.util.ArrayList;
 import ifp.project.livefootball.Account.User;
+import ifp.project.livefootball.Team.Teams;
 
 public class Database extends SQLiteOpenHelper {
 
@@ -25,6 +25,67 @@ public class Database extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
 
+    }
+
+    // Método de inserción para equipos
+    public void insertTeam(String teamName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name", teamName);
+        db.insert("teams", null, contentValues);
+    }
+
+    // Método de actualización para equipos
+    public void updateTeamName(int teamId, String newTeamName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name", newTeamName);
+        db.update("teams", contentValues, "idTeams = ?", new String[]{String.valueOf(teamId)});
+        db.close();
+    }
+
+    // Método de inserción para jugadores
+    public void insertPlayer(String playerName, int idTeam, String teamName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("playerName", playerName);
+        contentValues.put("idTeam", getTeamId(teamName)); // Obtener el ID del equipo
+        contentValues.put("team", teamName); // Agregar el nombre del equipo
+        db.insert("players", null, contentValues);
+    }
+
+    // Método de actualización para jugadores
+    public void updatePlayerTeam(String oldPlayerName, String newPlayerName, int newTeamId, String newTeamName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("playerName", newPlayerName);
+        contentValues.put("idTeam", newTeamId);
+        contentValues.put("team", newTeamName); // Agregar esta línea para actualizar el nombre del equipo
+        String whereClause = "playerName = ?";
+        String[] whereArgs = {oldPlayerName};
+        db.update("players", contentValues, whereClause, whereArgs);
+    }
+
+    // Método de inserción para partidos
+    public void insertMatch(int localTeamId, int guestTeamId, int localScore, int guestScore) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("idLocalTeam", localTeamId);
+        contentValues.put("idGuestTeam", guestTeamId);
+        contentValues.put("localScore", localScore);
+        contentValues.put("guestScore", guestScore);
+        db.insert("footballMatch", null, contentValues);
+    }
+
+    // Método de actualización para partidos
+    public void updateMatchScore(int matchId, int newLocalScore, int newGuestScore) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("localScore", newLocalScore);
+        contentValues.put("guestScore", newGuestScore);
+        String whereClause = "idMatch = ?";
+        String[] whereArgs = {String.valueOf(matchId)};
+        db.update("footballMatch", contentValues, whereClause, whereArgs);
     }
 
     public String getPass(String name) {
@@ -84,22 +145,34 @@ public class Database extends SQLiteOpenHelper {
         return matchList;
     }
 
-
-
-    public ArrayList<String> getTeams() {
-        ArrayList<String> teamList = new ArrayList<String>();
+    public ArrayList<Teams> getTeams() {
+        ArrayList<Teams> teamList = new ArrayList<Teams>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
-        cursor = db.rawQuery("SELECT name FROM teams", null);
-        cursor.moveToLast();
+        cursor = db.rawQuery("SELECT idTeams, name FROM teams", null);
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                teamList.add(cursor.getString(0));
+                Teams team = new Teams(cursor.getInt(0), cursor.getString(1));
+                teamList.add(team);
                 cursor.moveToNext();
             }
         }
         return teamList;
+    }
+
+    private int getTeamId(String teamName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT idTeams FROM teams WHERE name = ?", new String[]{teamName});
+        try {
+            int columnIndex = cursor.getColumnIndex("idTeams");
+            if (cursor.moveToFirst() && columnIndex != -1) {
+                return cursor.getInt(columnIndex);
+            }
+            return -1; // Equipo no encontrado
+        } finally {
+            cursor.close();
+        }
     }
 
     public String getPlayerTeam(String playerName) {
