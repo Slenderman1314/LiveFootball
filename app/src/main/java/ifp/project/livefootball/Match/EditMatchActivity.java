@@ -1,27 +1,30 @@
 package ifp.project.livefootball.Match;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
-
 import java.util.ArrayList;
-
 import ifp.project.livefootball.Database.Database;
 import ifp.project.livefootball.MainMenu.MainMenuActivity;
 import ifp.project.livefootball.R;
+import ifp.project.livefootball.Team.Teams;
 
 public class EditMatchActivity extends AppCompatActivity {
 
-    private EditText caja0, caja1, caja2;
+    private EditText caja0;
+    private Spinner localTeamSpinner, guestTeamSpinner;
     private Button boton1;
     private Button boton2;
     private Database db;
@@ -38,8 +41,8 @@ public class EditMatchActivity extends AppCompatActivity {
         db = new Database(this);
 
         caja0 = (EditText) findViewById(R.id.caja0_editMatchId);
-        caja1 = findViewById(R.id.caja1_editEquipoLocal);
-        caja2 = findViewById(R.id.caja2_editEquipoVisitante);
+        localTeamSpinner = findViewById(R.id.spinner_editMatchLocal);
+        guestTeamSpinner = findViewById(R.id.spinner_editMatchGuest);
         boton1 = findViewById(R.id.boton1_updateMatch);
         boton2 = findViewById(R.id.boton2_inicioEditMatch);
         listView = findViewById(R.id.lista1_editMatch);
@@ -49,29 +52,28 @@ public class EditMatchActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
         System.out.println("Partidos recuperados: " + matches); // Agrega esta línea
 
+        ArrayList<Teams> teams = db.getTeams();
+        teams.add(0, new Teams(0, "Seleccione equipo")); // Agregar un objeto Teams con id 0 y nombre "Seleccione equipo"
+        ArrayAdapter<Teams> teamAdapter = new ArrayAdapter<>(EditMatchActivity.this, android.R.layout.simple_spinner_item, teams);
+        localTeamSpinner.setAdapter(teamAdapter);
+        guestTeamSpinner.setAdapter(teamAdapter);
+
         boton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int matchId =Integer.parseInt(caja0.getText().toString());
-                String localTeam = caja1.getText().toString();
-                String guestTeam = caja2.getText().toString();
+                int matchId = Integer.parseInt(caja0.getText().toString());
+                Teams localTeam = (Teams) localTeamSpinner.getSelectedItem();
+                Teams guestTeam = (Teams) guestTeamSpinner.getSelectedItem();
 
-                SQLiteDatabase database = db.getWritableDatabase();
-                ContentValues contentValues = new ContentValues();
-                contentValues.put("idLocalTeam", localTeam);
-                contentValues.put("idGuestTeam", guestTeam);
-
-                int result = database.update("footballMatch", contentValues, "idMatch = ?", new String[]{String.valueOf(matchId)});
-
-                if (result > 0) {
-                    Toast.makeText(EditMatchActivity.this, "Partido actualizado con éxito", Toast.LENGTH_SHORT).show();
+                if (localTeam.getId() == 0 || guestTeam.getId() == 0) {
+                    Toast.makeText(EditMatchActivity.this, "Por favor, selecciona los equipos", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(EditMatchActivity.this, "Error al actualizar el partido", Toast.LENGTH_SHORT).show();
+                    db.updateMatch(matchId, localTeam.getId(), guestTeam.getId(), localTeam.getName(), guestTeam.getName());
+                    Toast.makeText(EditMatchActivity.this, "Partido actualizado con éxito", Toast.LENGTH_SHORT).show();
+                    changeActivity = new Intent(EditMatchActivity.this, MainMenuActivity.class);
+                    startActivity(changeActivity);
+                    finish();  // Esto cierra MainMenuActivity
                 }
-                changeActivity = new Intent(EditMatchActivity.this, MainMenuActivity.class);
-                startActivity(changeActivity);
-                finish();  // Esto cierra MainMenuActivity
-
             }
         });
 
@@ -84,5 +86,36 @@ public class EditMatchActivity extends AppCompatActivity {
                 finish();  // Esto cierra MainMenuActivity
             }
         });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                new AlertDialog.Builder(EditMatchActivity.this)
+                        .setTitle("Eliminar partido")
+                        .setMessage("¿Estás seguro de que quieres eliminar este partido?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Obtener la cadena del partido
+                                String matchInfo = adapter.getItem(position);
+                                // Extraer el id del partido de la cadena
+                                String[] parts = matchInfo.split(" - ");
+                                String idPart = parts[0];
+                                String[] idParts = idPart.split(": ");
+                                int idMatch = Integer.parseInt(idParts[1]);
+                                // Eliminar el partido de la base de datos
+                                db.deleteMatch(idMatch);
+                                // Actualizar la lista
+                                matches.remove(position);
+                                adapter.notifyDataSetChanged();
+                                Toast.makeText(EditMatchActivity.this, "Partido eliminado", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+                return true;
+            }
+        });
     }
 }
+

@@ -18,7 +18,7 @@ public class Database extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS teams (idTeams INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL , name VARCHAR)");
         db.execSQL("CREATE TABLE IF NOT EXISTS players (idPlayer INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, playerName VARCHAR ,idTeam INTEGER, team VARCHAR, FOREIGN KEY (idTeam) REFERENCES teams(idTeams))");
-        db.execSQL("CREATE TABLE IF NOT EXISTS footballMatch (idMatch INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL , idLocalTeam teams, localScore INTEGER,guestScore INTEGER , idGuestTeam teams, localTeamName String, guestTeamName, localYellowCards INTEGER, guestYellowCards INTEGER, FOREIGN KEY (idLocalTeam) REFERENCES teams(idTeams), FOREIGN KEY (idGuestTeam) REFERENCES teams(idTeams))");
+        db.execSQL("CREATE TABLE IF NOT EXISTS footballMatch (idMatch INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL , idLocalTeam teams, idGuestTeam teams, localScore INTEGER, guestScore INTEGER, localTeamName String, guestTeamName String, localYellowCards INTEGER, guestYellowCards INTEGER, FOREIGN KEY (idLocalTeam) REFERENCES teams(idTeams), FOREIGN KEY (idGuestTeam) REFERENCES teams(idTeams))");
         db.execSQL("CREATE TABLE IF NOT EXISTS users (idUser INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, userName VARCHAR, password VARCHAR, userType VARCHAR)");
     }
 
@@ -67,27 +67,36 @@ public class Database extends SQLiteOpenHelper {
     }
 
     // Método de inserción para partidos
-    public void insertMatch(int localTeamId, int guestTeamId, int localScore, int guestScore) {
+    public void insertMatch(int localTeamId, int guestTeamId, String nameLocalTeam, String nameGuestTeam) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("idLocalTeam", localTeamId);
         contentValues.put("idGuestTeam", guestTeamId);
-        contentValues.put("localScore", localScore);
-        contentValues.put("guestScore", guestScore);
+        contentValues.put("localTeamName", nameLocalTeam);
+        contentValues.put("guestTeamName", nameGuestTeam);
         db.insert("footballMatch", null, contentValues);
     }
 
     // Método de actualización para partidos
-    public void updateMatchScore(int matchId, int newLocalScore, int newGuestScore) {
+    public void updateMatch(int matchId, int localTeamId, int guestTeamId, String nameLocalTeam, String nameGuestTeam) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("localScore", newLocalScore);
-        contentValues.put("guestScore", newGuestScore);
+        contentValues.put("idLocalTeam", localTeamId);
+        contentValues.put("idGuestTeam", guestTeamId);
+        contentValues.put("localTeamName", nameLocalTeam);
+        contentValues.put("guestTeamName", nameGuestTeam);
         String whereClause = "idMatch = ?";
         String[] whereArgs = {String.valueOf(matchId)};
         db.update("footballMatch", contentValues, whereClause, whereArgs);
     }
 
+    // Método de eliminación para partidos
+    public void deleteMatch(int idMatch) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("footballMatch", "idMatch = ?", new String[]{String.valueOf(idMatch)});
+    }
+
+    // Método para conseguir el password del usuario
     public String getPass(String name) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT password FROM users WHERE userName = ?", new String[]{name});
@@ -103,6 +112,7 @@ public class Database extends SQLiteOpenHelper {
         }
     }
 
+    // Método para conseguir el usuario
     public String getUser(String name) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM users WHERE userName = ?", new String[]{name});
@@ -117,6 +127,7 @@ public class Database extends SQLiteOpenHelper {
         return null;
     }
 
+    // Método para inseertar un usuario nuevo
     public void insertUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -126,11 +137,12 @@ public class Database extends SQLiteOpenHelper {
         db.insert("users", null, contentValues);
     }
 
+    // Método para listar partidos
     public ArrayList<String> getMatches() {
         ArrayList<String> matchList = new ArrayList<String>();
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = null;
-        String query = "SELECT fm.idMatch, fm.idLocalTeam, fm.idGuestTeam FROM footballMatch fm";
+        String query = "SELECT fm.idMatch, fm.localTeamName, fm.guestTeamName FROM footballMatch fm";
         cursor = db.rawQuery(query, null);
 
         if (cursor.getCount() > 0) {
@@ -145,6 +157,7 @@ public class Database extends SQLiteOpenHelper {
         return matchList;
     }
 
+    // Método para listar equipos
     public ArrayList<Teams> getTeams() {
         ArrayList<Teams> teamList = new ArrayList<Teams>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -161,6 +174,7 @@ public class Database extends SQLiteOpenHelper {
         return teamList;
     }
 
+    // Método para conseguir el id de un equipo
     private int getTeamId(String teamName) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT idTeams FROM teams WHERE name = ?", new String[]{teamName});
@@ -175,6 +189,7 @@ public class Database extends SQLiteOpenHelper {
         }
     }
 
+    // Método para conseguir el equipo de un jugador
     public String getPlayerTeam(String playerName) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT team FROM players WHERE playerName = ?", new String[]{playerName});
@@ -185,7 +200,7 @@ public class Database extends SQLiteOpenHelper {
         return null;
     }
 
-
+    // Método para listar jugadores
     public ArrayList<String> getPlayers() {
         ArrayList<String> playerList = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -198,24 +213,5 @@ public class Database extends SQLiteOpenHelper {
         }
         cursor.close();
         return playerList;
-    }
-
-    public void printUsers() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM users", null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                int nameColumnIndex = cursor.getColumnIndex("userName");
-                int passColumnIndex = cursor.getColumnIndex("password");
-                int roleColumnIndex = cursor.getColumnIndex("userType");
-
-                String name = cursor.getString(nameColumnIndex);
-                String pass = cursor.getString(passColumnIndex);
-                String role = cursor.getString(roleColumnIndex);
-                System.out.println("User: " + name + ", Pass: " + pass + ", Role: " + role);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
     }
 }
