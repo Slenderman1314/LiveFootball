@@ -37,6 +37,7 @@ public class CreateTeamActivity extends AppCompatActivity {
                 if (!teamName.isEmpty()) {
                     db.insertTeam(teamName);
                     Toast.makeText(CreateTeamActivity.this, "Equipo registrado con éxito", Toast.LENGTH_SHORT).show();
+                    caja1.setText("");
                 } else {
                     Toast.makeText(CreateTeamActivity.this, "Por favor, ingresa el nombre del equipo", Toast.LENGTH_SHORT).show();
                 }

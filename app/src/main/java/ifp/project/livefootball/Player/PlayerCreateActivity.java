@@ -57,6 +57,7 @@ public class PlayerCreateActivity extends AppCompatActivity {
                     // Insertar jugador en la base de datos
                     db.insertPlayer(playerName, getTeamId(teamName), teamName);
                     Toast.makeText(PlayerCreateActivity.this, "Jugador registrado con éxito", Toast.LENGTH_SHORT).show();
+                    caja1.setText("");
                 }
             }
         });
