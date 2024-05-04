@@ -14,6 +14,7 @@ import ifp.project.livefootball.Account.LogInActivity;
 import ifp.project.livefootball.Match.MatchOnLineActivity;
 import ifp.project.livefootball.Player.EditPlayerActivity;
 import ifp.project.livefootball.Player.CreatePlayerActivity;
+import ifp.project.livefootball.Player.ListPlayersActivity;
 import ifp.project.livefootball.R;
 import ifp.project.livefootball.Match.CreateMatchActivity;
 import ifp.project.livefootball.Match.EditMatchActivity;
@@ -29,10 +30,12 @@ public class MainMenuActivity extends AppCompatActivity {
     private Button botonEditarPartido;
     private Button botonEditarEquipo;
     private Button botonEditarJugador;
+    private Button botonMostrarJugadores;
     private Button botonMostrarEquipo;
     private Button botonPartidoEnCurso;
     private Button botonLogOut;
     private TextView caja1;
+    private Intent pasarPantalla;
     private String userType;
     private Database db;
 
@@ -54,6 +57,7 @@ public class MainMenuActivity extends AppCompatActivity {
         botonEditarJugador = findViewById(R.id.botonMainEditarJugador);
         botonMostrarEquipo = findViewById(R.id.botonMainMostrarEquipo);
         botonPartidoEnCurso = findViewById(R.id.botonMainMatchOnline);
+        botonMostrarJugadores = findViewById(R.id.botonMainMostrarJugadores);
         botonLogOut = findViewById(R.id.boton2_menu);
         caja1 = findViewById(R.id.label3_menu);
         db = new Database(this);
@@ -68,8 +72,8 @@ public class MainMenuActivity extends AppCompatActivity {
         botonLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, LogInActivity.class);
-                startActivity(intent);
+                pasarPantalla = new Intent(MainMenuActivity.this, LogInActivity.class);
+                startActivity(pasarPantalla);
             }
         });
     }
@@ -98,33 +102,35 @@ public class MainMenuActivity extends AppCompatActivity {
         botonEditarJugador.setEnabled(false);
         botonMostrarEquipo.setEnabled(false);
         botonPartidoEnCurso.setEnabled(false);
+        botonMostrarJugadores.setEnabled(false);
 
         botonEditarPartido.setBackgroundColor(Color.GRAY);
         botonEditarEquipo.setBackgroundColor(Color.GRAY);
         botonEditarJugador.setBackgroundColor(Color.GRAY);
         botonMostrarEquipo.setBackgroundColor(Color.GRAY);
         botonPartidoEnCurso.setBackgroundColor(Color.GRAY);
+        botonMostrarJugadores.setBackgroundColor(Color.GRAY);
         botonCrearPartido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, CreateMatchActivity.class);
-                startActivity(intent);
+                pasarPantalla = new Intent(MainMenuActivity.this, CreateMatchActivity.class);
+                startActivity(pasarPantalla);
             }
         });
 
         botonCrearEquipo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, CreateTeamActivity.class);
-                startActivity(intent);
+                pasarPantalla = new Intent(MainMenuActivity.this, CreateTeamActivity.class);
+                startActivity(pasarPantalla);
             }
         });
 
         botonCrearJugador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, CreatePlayerActivity.class);
-                startActivity(intent);
+                pasarPantalla = new Intent(MainMenuActivity.this, CreatePlayerActivity.class);
+                startActivity(pasarPantalla);
             }
         });
     }
@@ -139,6 +145,7 @@ public class MainMenuActivity extends AppCompatActivity {
         botonEditarJugador.setEnabled(true);
         botonMostrarEquipo.setEnabled(true);
         botonPartidoEnCurso.setEnabled(true);
+        botonMostrarJugadores.setEnabled(true);
 
         botonCrearPartido.setBackgroundColor(Color.GRAY);
         botonCrearEquipo.setBackgroundColor(Color.GRAY);
@@ -146,40 +153,48 @@ public class MainMenuActivity extends AppCompatActivity {
         botonEditarPartido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, EditMatchActivity.class);
-                startActivity(intent);
+                pasarPantalla = new Intent(MainMenuActivity.this, EditMatchActivity.class);
+                startActivity(pasarPantalla);
             }
         });
 
         botonEditarEquipo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, EditTeamActivity.class);
-                startActivity(intent);
+                pasarPantalla = new Intent(MainMenuActivity.this, EditTeamActivity.class);
+                startActivity(pasarPantalla);
             }
         });
 
         botonEditarJugador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, EditPlayerActivity.class);
-                startActivity(intent);
+                pasarPantalla = new Intent(MainMenuActivity.this, EditPlayerActivity.class);
+                startActivity(pasarPantalla);
             }
         });
 
         botonMostrarEquipo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, ListTeamActivity.class);
-                startActivity(intent);
+                pasarPantalla = new Intent(MainMenuActivity.this, ListTeamActivity.class);
+                startActivity(pasarPantalla);
             }
         });
 
         botonPartidoEnCurso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, MatchOnLineActivity.class);
-                startActivity(intent);
+                pasarPantalla = new Intent(MainMenuActivity.this, MatchOnLineActivity.class);
+                startActivity(pasarPantalla);
+            }
+        });
+
+        botonMostrarJugadores.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pasarPantalla = new Intent(MainMenuActivity.this, ListPlayersActivity.class);
+                startActivity(pasarPantalla);
             }
         });
     }

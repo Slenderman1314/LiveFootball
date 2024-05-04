@@ -1,6 +1,7 @@
 package ifp.project.livefootball.Team;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
 import java.util.ArrayList;
+
 import ifp.project.livefootball.Database.Database;
 import ifp.project.livefootball.MainMenu.MainMenuActivity;
 import ifp.project.livefootball.R;
@@ -23,6 +26,7 @@ public class EditTeamActivity extends AppCompatActivity {
     private Button boton2;
     private Spinner spinner;
     protected Intent changeActivity;
+    private ArrayList<Teams> teams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,7 @@ public class EditTeamActivity extends AppCompatActivity {
         boton1 = findViewById(R.id.button1_editTeam);
         boton2 = findViewById(R.id.boton1_inicioEditTeam);
         spinner = findViewById(R.id.spinner_teams);
+        teams = db.getTeams();
 
         if (savedInstanceState != null) {
             // Restaurar el estado guardado
@@ -43,17 +48,28 @@ public class EditTeamActivity extends AppCompatActivity {
         }
 
         ArrayList<Teams> teams = db.getTeams(); // obtener los equipos de la base de datos
-        ArrayAdapter<Teams> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, teams);
+
+        // Crear una lista de nombres de equipos
+        ArrayList<String> teamNames = new ArrayList<>();
+        teamNames.add("Seleccione equipo"); // Agregar "Seleccione equipo" al inicio de la lista
+
+        for (Teams team : teams) {
+            teamNames.add(team.getName()); // Agregar el nombre de cada equipo a la lista
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, teamNames);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Teams selectedTeam = (Teams) parent.getItemAtPosition(position);
-                int teamId = selectedTeam.getId();
-                // Guardar el id del equipo seleccionado
-                getIntent().putExtra("teamId", teamId);
+                if (position > 0) { // Ignora la opción "Seleccione equipo"
+                    Teams selectedTeam = teams.get(position - 1); // Ajusta la posición
+                    int teamId = selectedTeam.getId();
+                    // Guardar el id del equipo seleccionado
+                    getIntent().putExtra("teamId", teamId);
+                }
             }
 
             @Override
@@ -69,6 +85,9 @@ public class EditTeamActivity extends AppCompatActivity {
                 int teamId = getIntent().getIntExtra("teamId", 0);
                 if (!newTeamName.isEmpty()) {
                     db.updateTeamName(teamId, newTeamName);
+                    changeActivity = new Intent(EditTeamActivity.this, MainMenuActivity.class);
+                    startActivity(changeActivity);
+                    finish();
                     Toast.makeText(EditTeamActivity.this, "Nombre del equipo actualizado con éxito", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(EditTeamActivity.this, "Por favor, ingresa el nuevo nombre del equipo", Toast.LENGTH_SHORT).show();

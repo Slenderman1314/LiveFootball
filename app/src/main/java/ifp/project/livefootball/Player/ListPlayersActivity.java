@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,42 +19,76 @@ import java.util.ArrayList;
 
 import ifp.project.livefootball.Database.Database;
 import ifp.project.livefootball.MainMenu.MainMenuActivity;
+import ifp.project.livefootball.Match.EditMatchActivity;
 import ifp.project.livefootball.R;
+import ifp.project.livefootball.Team.Teams;
 
 public class ListPlayersActivity extends AppCompatActivity {
 
     private Database db;
-    private ArrayList<String> arrayList;
-    private ArrayAdapter<String> arrayAdapter;
     private ListView listView1;
     private Button boton2;
     private String teamName;
     private String playerName;
+    private Spinner spinner;
     private Intent pasarPantalla;
+    private ArrayAdapter<String> adapter;
+    private ArrayList<String> arrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_players);
 
-        /**listView1 = new ListView(this);
-        listView1.setId(R.id.listView1_listPlayers);**/
         listView1 = (ListView) findViewById(R.id.listView1_listPlayers);
-        boton2 = (Button)findViewById(R.id.boton1_inicioListPLayer);
+        boton2 = (Button) findViewById(R.id.boton1_inicioListPLayer);
+        spinner = (Spinner) findViewById(R.id.spinnerListPlayers);
         db = new Database(this);
 
-        // Obtén el nombre del equipo del Intent
-        teamName = getIntent().getStringExtra("TEAM");
-        arrayList = db.getPlayersByTeam(teamName);
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayList);
-        listView1.setAdapter(arrayAdapter);
+        // Inicializa arrayList como una lista vacía
+        arrayList = new ArrayList<>();
 
         if (savedInstanceState != null) {
             // Restaurar el estado guardado
             teamName = savedInstanceState.getString("teamName");
             playerName = savedInstanceState.getString("playerName");
         }
+
+        ArrayList<Teams> teams = db.getTeams();
+        teams.add(0, new Teams(0, "Seleccione equipo")); // Agregar un objeto Teams con id 0 y nombre "Seleccione equipo"
+        ArrayAdapter<Teams> teamAdapter = new ArrayAdapter<>(ListPlayersActivity.this, android.R.layout.simple_spinner_item, teams);
+        spinner.setAdapter(teamAdapter);
+
+        // Comprueba si el Intent contiene el nombre del equipo
+        if (getIntent().hasExtra("TEAM")) {
+            teamName = getIntent().getStringExtra("TEAM");
+
+            // Selecciona el equipo en el Spinner
+            for (int i = 0; i < teams.size(); i++) {
+                if (teams.get(i).getName().equals(teamName)) {
+                    spinner.setSelection(i);
+                    break;
+                }
+            }
+        }
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Teams selectedTeam = (Teams) parent.getItemAtPosition(position);
+                teamName = selectedTeam.getName(); // Asume que Teams tiene un método getTeamName
+
+                // Obtiene los jugadores del equipo seleccionado y actualiza el ListView
+                arrayList = db.getPlayersByTeam(teamName);
+                adapter = new ArrayAdapter<>(ListPlayersActivity.this, android.R.layout.simple_list_item_1, arrayList);
+                listView1.setAdapter(adapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // No hacer nada
+            }
+        });
 
         listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -63,10 +98,6 @@ public class ListPlayersActivity extends AppCompatActivity {
                 pasarPantalla.putExtra("PLAYER_NAME", playerName);
                 pasarPantalla.putExtra("FROM_LIST_PLAYERS_ACTIVITY", true);
                 startActivity(pasarPantalla);
-
-                // Actualiza la lista de jugadores
-                arrayList = db.getPlayersByTeam(teamName);
-                arrayAdapter.notifyDataSetChanged();
             }
         });
 
@@ -79,6 +110,19 @@ public class ListPlayersActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Actualiza la lista de jugadores cuando vuelves a esta actividad
+        if (teamName != null) {
+            arrayList = db.getPlayersByTeam(teamName);
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+            }
+        }
     }
 
     @Override
@@ -97,3 +141,4 @@ public class ListPlayersActivity extends AppCompatActivity {
         playerName = savedInstanceState.getString("playerName");
     }
 }
+
