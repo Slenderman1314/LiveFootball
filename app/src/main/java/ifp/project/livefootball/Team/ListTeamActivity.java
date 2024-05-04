@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import ifp.project.livefootball.Database.Database;
 import ifp.project.livefootball.MainMenu.MainMenuActivity;
 import ifp.project.livefootball.Player.EditPlayerActivity;
+import ifp.project.livefootball.Player.ListPlayersActivity;
 import ifp.project.livefootball.R;
 
 public class ListTeamActivity extends AppCompatActivity {
@@ -44,7 +45,7 @@ public class ListTeamActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 textContent = adapterView.getItemAtPosition(i).toString();
-                changeActivity = new Intent(ListTeamActivity.this, EditTeamActivity.class);
+                changeActivity = new Intent(ListTeamActivity.this, ListPlayersActivity.class);
                 changeActivity.putExtra("TEAM", textContent);
                 startActivity(changeActivity);
                 finish();

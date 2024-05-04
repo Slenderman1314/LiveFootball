@@ -20,15 +20,16 @@ import ifp.project.livefootball.R;
 import ifp.project.livefootball.Team.Teams;
 
 public class EditPlayerActivity extends AppCompatActivity {
+
     private Database db;
     private EditText caja1;
     private Spinner teamSpinner, playerSpinner;
     private Button boton1;
     private Button boton2;
     protected Intent changeActivity;
-
     private ArrayList<Teams> teams;
     private ArrayList<String> players;
+    private boolean fromListPlayersActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,9 @@ public class EditPlayerActivity extends AppCompatActivity {
         ArrayAdapter<Teams> teamAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, teams);
         teamSpinner.setAdapter(teamAdapter);
 
+        // Obtén si la actividad se inició desde ListPlayersActivity del Intent
+        fromListPlayersActivity = getIntent().getBooleanExtra("FROM_LIST_PLAYERS_ACTIVITY", false);
+
         playerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -71,6 +75,13 @@ public class EditPlayerActivity extends AppCompatActivity {
                     }
                     int spinnerPosition = teamAdapter.getPosition(playerTeam);
                     teamSpinner.setSelection(spinnerPosition);
+                } else if (fromListPlayersActivity) {
+                    // Si la actividad se inició desde ListPlayersActivity, establece el jugador seleccionado
+                    String playerName = getIntent().getStringExtra("PLAYER_NAME");
+                    if (playerName != null) {
+                        int spinnerPosition = playerAdapter.getPosition(playerName);
+                        playerSpinner.setSelection(spinnerPosition);
+                    }
                 }
             }
 
@@ -120,5 +131,6 @@ public class EditPlayerActivity extends AppCompatActivity {
         return -1; // Equipo no encontrado
     }
 }
+
 
 

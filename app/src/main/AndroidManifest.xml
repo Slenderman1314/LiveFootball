@@ -12,6 +12,9 @@
         android:theme="@style/Theme.LiveFootball"
         tools:targetApi="31">
         <activity
+            android:name=".Player.ListPlayersActivity"
+            android:exported="false" />
+        <activity
             android:name=".Match.MatchOnLineActivity"
             android:exported="false" />
         <activity
