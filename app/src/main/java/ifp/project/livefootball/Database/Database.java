@@ -199,6 +199,25 @@ public class Database extends SQLiteOpenHelper {
         return matchList;
     }
 
+    // Metodo para conseguir un id de partido
+    public String getMatch(int matchId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = null;
+        String query = "SELECT idMatch, localTeamName, guestTeamName FROM footballMatch WHERE idMatch = " + matchId;
+        cursor = db.rawQuery(query, null);
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            String matchInfo = "ID Partido: " + cursor.getString(0) + " - Equipo Local: " + cursor.getString(1) + " - Equipo Visitante: " + cursor.getString(2);
+            cursor.close();
+            return matchInfo;
+        }
+
+        cursor.close();
+        return null;
+    }
+
+
     // Método de actualización para partidos en curso
     public MatchStatistics getMatchStatistics(int matchId) {
         SQLiteDatabase db = this.getReadableDatabase();

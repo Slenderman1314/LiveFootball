@@ -67,9 +67,19 @@ public class EditMatchActivity extends AppCompatActivity {
         boton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (caja0.getText().toString().isEmpty()) {
+                    Toast.makeText(EditMatchActivity.this, "Por favor, introduce un ID de partido", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 int matchId = Integer.parseInt(caja0.getText().toString());
                 Teams localTeam = (Teams) localTeamSpinner.getSelectedItem();
                 Teams guestTeam = (Teams) guestTeamSpinner.getSelectedItem();
+
+                if (db.getMatch(matchId) == null) {
+                    Toast.makeText(EditMatchActivity.this, "El ID de partido no existe", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 if (localTeam.getId() == 0 || guestTeam.getId() == 0) {
                     Toast.makeText(EditMatchActivity.this, "Por favor, selecciona los equipos", Toast.LENGTH_SHORT).show();
@@ -82,6 +92,7 @@ public class EditMatchActivity extends AppCompatActivity {
                 }
             }
         });
+
 
         boton2.setOnClickListener(new View.OnClickListener() {
             @Override
