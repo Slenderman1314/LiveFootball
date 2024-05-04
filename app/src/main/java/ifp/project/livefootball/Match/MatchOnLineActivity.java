@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -51,6 +53,7 @@ public class MatchOnLineActivity extends AppCompatActivity {
     private Button localRedCardsButton;
     private Button guestRedCardsButton;
     private Button botonCrono;
+    private boolean isChronometerRunning = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +73,6 @@ public class MatchOnLineActivity extends AppCompatActivity {
         botonCrono = (Button) findViewById(R.id.startCronoButtonMatchOnLine);
         chronometer = findViewById(R.id.chronometer);
         chronometer.setBase(SystemClock.elapsedRealtime());
-        chronometer.start();
 
         localScoreButton = findViewById(R.id.local_score_button);
         guestScoreButton = findViewById(R.id.guest_score_button);
@@ -102,11 +104,11 @@ public class MatchOnLineActivity extends AppCompatActivity {
                         updateStatistics(matchId); // Llamar al método updateStatistics aquí
                     } else {
                         // Mostrar un mensaje de error al usuario
-                        Toast.makeText(getApplicationContext(), "Error: El formato del partido no es correcto. Se esperaba ': ' en " + parts[0], Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Error: Toast: 1 ': ' en " + parts[0], Toast.LENGTH_LONG).show();
                     }
                 } else {
                     // Mostrar un mensaje de error al usuario
-                    Toast.makeText(getApplicationContext(), "Error: El formato del partido no es correcto. Se esperaba ' - ' en " + matchInfo, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Error: Toast: 2  ' - ' en " + matchInfo, Toast.LENGTH_LONG).show();
                 }
             }
             @Override
@@ -118,10 +120,29 @@ public class MatchOnLineActivity extends AppCompatActivity {
         botonCrono.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Iniciar el cronómetro cuando se presiona el botón "Iniciar"
-                chronometer.setBase(SystemClock.elapsedRealtime());
-                chronometer.start();
-                Toast.makeText(MatchOnLineActivity.this, "¡Cronómetro iniciado!", Toast.LENGTH_SHORT).show();
+                TextView partidoEnCurso = findViewById(R.id.textView7); // Asegúrate de que este es el ID correcto para el TextView "Partido en curso"
+                if (!isChronometerRunning) {
+                    // Si el cronómetro no está en ejecución, iniciar el cronómetro
+                    chronometer.start();
+                    isChronometerRunning = true; // El cronómetro está en ejecución
+                    botonCrono.setText("Parar"); // Cambiar el texto del botón a "Parar"
+                    // Hacer que el texto "Partido en curso" parpadee
+                    Animation anim = new AlphaAnimation(0.0f, 1.0f);
+                    anim.setDuration(700); // Puedes gestionar la velocidad del parpadeo con este parámetro
+                    anim.setStartOffset(20);
+                    anim.setRepeatMode(Animation.REVERSE);
+                    anim.setRepeatCount(Animation.INFINITE);
+                    partidoEnCurso.startAnimation(anim);
+                    Toast.makeText(MatchOnLineActivity.this, "¡Cronómetro iniciado!", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Si el cronómetro está en ejecución, detener el cronómetro
+                    chronometer.stop();
+                    isChronometerRunning = false; // El cronómetro no está en ejecución
+                    botonCrono.setText("Continuar"); // Cambiar el texto del botón a "Continuar"
+                    // Detener el parpadeo del texto "Partido en curso"
+                    partidoEnCurso.clearAnimation();
+                    Toast.makeText(MatchOnLineActivity.this, "Cronómetro detenido.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -129,7 +150,6 @@ public class MatchOnLineActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(MatchOnLineActivity.this, "!Inicio del partido!", Toast.LENGTH_SHORT).show();
                 if (!isHalfTimeBreak) {
                     chronometer.stop();
                     Toast.makeText(MatchOnLineActivity.this, "!Medio Tiempo! Tómate 15 minutos de descanso.", Toast.LENGTH_SHORT).show();
@@ -148,14 +168,17 @@ public class MatchOnLineActivity extends AppCompatActivity {
         localScoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Recuperar el valor actual del score local
-                int currentLocalScore = localScore;
-                // Incrementar el score local
-                currentLocalScore++;
-                // Actualizar el score local
-                localScore = currentLocalScore;
-                // Mostrar el nuevo valor del score local
+                localScore++;
                 localScoreView.setText(String.valueOf(localScore));
+                SQLiteStatement stmt = db.getReadableDatabase().compileStatement("UPDATE footballMatch SET localScore = ? WHERE idMatch = ?");
+                stmt.bindLong(1, localScore);
+                stmt.bindLong(2, matchId);
+                stmt.execute();
+                stmt.close();
+                MatchStatistics stats = db.getMatchStatistics(matchId);
+                if (stats != null) {
+                    localScore = stats.getLocalScore();
+                }
             }
         });
 
@@ -164,19 +187,24 @@ public class MatchOnLineActivity extends AppCompatActivity {
             public void onClick(View v) {
                 guestScore++;
                 guestScoreView.setText(String.valueOf(guestScore));
-                // Actualizar la base de datos
                 SQLiteStatement stmt = db.getReadableDatabase().compileStatement("UPDATE footballMatch SET guestScore = ? WHERE idMatch = ?");
                 stmt.bindLong(1, guestScore);
                 stmt.bindLong(2, matchId);
                 stmt.execute();
-                stmt.close(); // No olvides cerrar el objeto SQLiteStatement
+                stmt.close();
+                MatchStatistics stats = db.getMatchStatistics(matchId);
+                if (stats != null) {
+                    guestScore = stats.getGuestScore();
+                }
             }
         });
 
         localYellowCardsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Incrementar el número de tarjetas amarillas locales
                 localYellowCards++;
+                // Actualizar la vista
                 localYellowCardsView.setText(String.valueOf(localYellowCards));
                 // Actualizar la base de datos
                 SQLiteStatement stmt = db.getReadableDatabase().compileStatement("UPDATE footballMatch SET localYellowCards = ? WHERE idMatch = ?");
@@ -184,6 +212,11 @@ public class MatchOnLineActivity extends AppCompatActivity {
                 stmt.bindLong(2, matchId);
                 stmt.execute();
                 stmt.close(); // No olvides cerrar el objeto SQLiteStatement
+                // Actualizar la variable localYellowCards con el nuevo valor de la base de datos
+                MatchStatistics stats = db.getMatchStatistics(matchId);
+                if (stats != null) {
+                    localYellowCards = stats.getLocalYellowCards();
+                }
             }
         });
 
@@ -192,12 +225,15 @@ public class MatchOnLineActivity extends AppCompatActivity {
             public void onClick(View v) {
                 guestYellowCards++;
                 guestYellowCardsView.setText(String.valueOf(guestYellowCards));
-                // Actualizar la base de datos
                 SQLiteStatement stmt = db.getReadableDatabase().compileStatement("UPDATE footballMatch SET guestYellowCards = ? WHERE idMatch = ?");
                 stmt.bindLong(1, guestYellowCards);
                 stmt.bindLong(2, matchId);
                 stmt.execute();
-                stmt.close(); // No olvides cerrar el objeto SQLiteStatement
+                stmt.close();
+                MatchStatistics stats = db.getMatchStatistics(matchId);
+                if (stats != null) {
+                    guestYellowCards = stats.getGuestYellowCards();
+                }
             }
         });
 
@@ -206,12 +242,15 @@ public class MatchOnLineActivity extends AppCompatActivity {
             public void onClick(View v) {
                 localRedCards++;
                 localRedCardsView.setText(String.valueOf(localRedCards));
-                // Actualizar la base de datos
                 SQLiteStatement stmt = db.getReadableDatabase().compileStatement("UPDATE footballMatch SET localRedCards = ? WHERE idMatch = ?");
                 stmt.bindLong(1, localRedCards);
                 stmt.bindLong(2, matchId);
                 stmt.execute();
-                stmt.close(); // No olvides cerrar el objeto SQLiteStatement
+                stmt.close();
+                MatchStatistics stats = db.getMatchStatistics(matchId);
+                if (stats != null) {
+                    localRedCards = stats.getLocalRedCards();
+                }
             }
         });
 
@@ -220,20 +259,23 @@ public class MatchOnLineActivity extends AppCompatActivity {
             public void onClick(View v) {
                 guestRedCards++;
                 guestRedCardsView.setText(String.valueOf(guestRedCards));
-                // Actualizar la base de datos
                 SQLiteStatement stmt = db.getReadableDatabase().compileStatement("UPDATE footballMatch SET guestRedCards = ? WHERE idMatch = ?");
                 stmt.bindLong(1, guestRedCards);
                 stmt.bindLong(2, matchId);
                 stmt.execute();
-                stmt.close(); // No olvides cerrar el objeto SQLiteStatement
+                stmt.close();
+                MatchStatistics stats = db.getMatchStatistics(matchId);
+                if (stats != null) {
+                    guestRedCards = stats.getGuestRedCards();
+                }
             }
         });
 
         botonInicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isHalfTimeBreak) {
-                    // Permitir ir a la pantalla principal si el cronómetro está parado
+                if (!isChronometerRunning || isHalfTimeBreak) {
+                    // Permitir ir a la pantalla principal si el cronómetro no se ha iniciado o está en pausa
                     cambiarPantalla = new Intent(MatchOnLineActivity.this, MainMenuActivity.class);
                     startActivity(cambiarPantalla);
                     finish();
@@ -246,12 +288,18 @@ public class MatchOnLineActivity extends AppCompatActivity {
 
     // Método para actualizar estadísticas en la tabla
     private void updateStatistics(int matchId) {
-        Database db = new Database(this);
+        //Database db = new Database(this);
         MatchStatistics stats = db.getMatchStatistics(matchId);
         if (stats != null) {
-            updateTabla(stats); // Pasar la variable stats como un parámetro
+            localScore = stats.getLocalScore();
+            guestScore = stats.getGuestScore();
+            localYellowCards = stats.getLocalYellowCards();
+            guestYellowCards = stats.getGuestYellowCards();
+            localRedCards = stats.getLocalRedCards();
+            guestRedCards = stats.getGuestRedCards();
+            updateTabla(stats);
         } else {
-            Toast.makeText(MatchOnLineActivity.this, "Error: No se encontraron estadísticas para el partido.", Toast.LENGTH_SHORT).show();;
+            Toast.makeText(MatchOnLineActivity.this, "Error: No se encontraron estadísticas para el partido.", Toast.LENGTH_SHORT).show();
         }
     }
 
