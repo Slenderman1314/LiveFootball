@@ -66,7 +66,7 @@
 
     <Button
         android:id="@+id/boton2_menu"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="150dp"
         android:layout_marginEnd="150dp"
@@ -74,7 +74,6 @@
         android:text="LogOut"
         app:layout_constraintBottom_toTopOf="@+id/ima1_main_menu"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
@@ -105,26 +104,29 @@
                 android:id="@+id/botonMainCrearPartido"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginEnd="8dp"
-                android:text="Crear partido" />
+                android:layout_weight="1"
+                android:text="Crear partido"
+                android:textSize="12sp" />
 
             <Button
                 android:id="@+id/botonMainEditarPartido"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="Editar partido" />
+                android:layout_weight="1"
+                android:text="Editar partido"
+                android:textSize="12sp" />
 
             <Button
                 android:id="@+id/botonMainMatchOnline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="8dp"
-                android:text="Partido en curso" />
+                android:layout_weight="1"
+                android:text="Partido en curso"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <!-- Grupo de botones para equipos -->
@@ -144,26 +146,29 @@
                 android:id="@+id/botonMainCrearEquipo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginEnd="8dp"
-                android:text="Crear equipo" />
+                android:layout_weight="1"
+                android:text="Crear equipo"
+                android:textSize="12sp" />
 
             <Button
                 android:id="@+id/botonMainEditarEquipo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="Editar equipo" />
+                android:layout_weight="1"
+                android:text="Editar equipo"
+                android:textSize="12sp" />
 
             <Button
                 android:id="@+id/botonMainMostrarEquipo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="8dp"
-                android:text="Mostrar equipo" />
+                android:layout_weight="1"
+                android:text="Mostrar equipo"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <!-- Grupo de botones para jugadores -->
@@ -183,18 +188,20 @@
                 android:id="@+id/botonMainCrearJugador"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginEnd="8dp"
-                android:text="Crear jugador" />
+                android:layout_weight="1"
+                android:text="Crear jugador"
+                android:textSize="12sp" />
 
             <Button
                 android:id="@+id/botonMainEditarJugador"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="Editar jugador" />
+                android:layout_weight="1"
+                android:text="Editar jugador"
+                android:textSize="12sp" />
         </LinearLayout>
 
     </LinearLayout>

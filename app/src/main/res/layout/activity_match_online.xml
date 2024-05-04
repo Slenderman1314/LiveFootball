@@ -34,7 +34,7 @@
 
     <TextView
         android:id="@+id/textView7"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
@@ -52,8 +52,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout5"
-        android:layout_width="352dp"
-        android:layout_height="53dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:orientation="horizontal"
@@ -65,6 +65,7 @@
             android:id="@+id/startCronoButtonMatchOnLine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
             android:text="Iniciar" />
 
         <Chronometer
@@ -74,8 +75,8 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
-            android:text="00:00"
             android:gravity="center_horizontal"
+            android:text="00:00"
             android:textAlignment="center"
             android:textSize="34sp" />
 
@@ -83,8 +84,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="404dp"
-        android:layout_height="106dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="24dp"
@@ -111,21 +112,21 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Local"
                     android:textAlignment="center"
-                    android:textSize="16sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Visitante"
                     android:textAlignment="center"
-                    android:textSize="16sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
             </TableRow>
 
@@ -135,10 +136,10 @@
 
                 <TextView
                     android:id="@+id/MatchOnLine_scores"
-                    android:layout_width="33dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Goles"
-                    android:textSize="16sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -147,7 +148,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="0"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/MatchOnLineGuest_score"
@@ -155,7 +156,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="0"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
             </TableRow>
 
             <TableRow
@@ -164,10 +165,10 @@
 
                 <TextView
                     android:id="@+id/MatchOnLine_YellowCards"
-                    android:layout_width="24dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Tarjetas amarillas"
-                    android:textSize="16sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -175,7 +176,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="0" />
+                    android:text="0"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/MatchOnLine_GuestYellowCards"
@@ -183,7 +185,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="0"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
             </TableRow>
 
@@ -193,10 +195,10 @@
 
                 <TextView
                     android:id="@+id/MatchOnLine_RedCards"
-                    android:layout_width="33dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Tarjetas rojas"
-                    android:textSize="16sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -205,7 +207,7 @@
                     android:layout_height="match_parent"
                     android:text="0"
                     android:textAlignment="center"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/MatchOnLine_GuestRedCards"
@@ -213,7 +215,7 @@
                     android:layout_height="match_parent"
                     android:text="0"
                     android:textAlignment="center"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
             </TableRow>
 
         </TableLayout>
@@ -221,11 +223,11 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="256dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="32dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -233,8 +235,8 @@
 
         <LinearLayout
             android:id="@+id/linearLayout3"
-            android:layout_width="wrap_content"
-            android:layout_height="66dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
@@ -242,22 +244,25 @@
 
             <Button
                 android:id="@+id/local_score_button"
-                android:layout_width="187dp"
-                android:layout_height="80dp"
-                android:text="Añadir gol al equipo local" />
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="4dp"
+                android:text="Gol local" />
 
             <Button
                 android:id="@+id/guest_score_button"
-                android:layout_width="187dp"
-                android:layout_height="80dp"
-                android:text="Añadir gol al equipo visitante" />
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Gol visitante" />
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout2"
-            android:layout_width="363dp"
-            android:layout_height="90dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
@@ -265,38 +270,44 @@
 
             <Button
                 android:id="@+id/local_yellow_cards_button"
-                android:layout_width="187dp"
-                android:layout_height="80dp"
-                android:text="Añadir tarjeta amarilla al equipo local" />
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="4dp"
+                android:text="Tarjeta amarilla local" />
 
             <Button
                 android:id="@+id/guest_yellow_cards_button"
-                android:layout_width="187dp"
-                android:layout_height="80dp"
-                android:text="Añadir tarjeta amarilla al equipo visitante" />
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Tarjeta amarilla visitante" />
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout4"
-            android:layout_width="363dp"
-            android:layout_height="90dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="-10dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/local_red_cards_button"
-                android:layout_width="187dp"
-                android:layout_height="80dp"
-                android:text="Añadir tarjeta roja al equipo local" />
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="4dp"
+                android:text="Tarjeta roja local" />
 
             <Button
                 android:id="@+id/guest_red_cards_button"
-                android:layout_width="187dp"
-                android:layout_height="80dp"
-                android:text="Añadir tarjeta roja al equipo visitante" />
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Tarjeta roja visitante" />
 
         </LinearLayout>
 

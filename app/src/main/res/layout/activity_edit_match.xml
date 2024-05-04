@@ -28,7 +28,9 @@
         android:layout_marginStart="158dp"
         android:layout_marginEnd="158dp"
         android:layout_marginBottom="32dp"
+        android:gravity="center_vertical"
         android:text="Inicio"
+        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/ima1_create_match"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -48,10 +50,10 @@
 
     <EditText
         android:id="@+id/caja0_editMatchId"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:hint="ID del partido"
         android:inputType="number"
@@ -75,10 +77,10 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="373dp"
-        android:layout_height="42dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:text="Partidos registrados:"
         android:textSize="24sp"
@@ -89,21 +91,21 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="363dp"
-        android:layout_height="30dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
         android:text="Indique el partido a modificar:"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
     <Spinner
         android:id="@+id/spinner_editMatchLocal"
-        android:layout_width="409dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
@@ -114,7 +116,7 @@
 
     <Spinner
         android:id="@+id/spinner_editMatchGuest"
-        android:layout_width="409dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
@@ -131,6 +133,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="24dp"
         android:text="Local"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -145,10 +148,26 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="24dp"
         android:text="Visitante"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner_editMatchLocal" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="24dp"
+        android:text="Editar partido"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
