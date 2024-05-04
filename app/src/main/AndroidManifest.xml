@@ -24,7 +24,7 @@
             android:name=".Player.EditPlayerActivity"
             android:exported="false" />
         <activity
-            android:name=".Player.PlayerCreateActivity"
+            android:name=".Player.CreatePlayerActivity"
             android:exported="false" />
         <activity
             android:name=".Team.EditTeamActivity"

@@ -267,6 +267,58 @@ public class MatchOnLineActivity extends AppCompatActivity {
                 }
             }
         });
+
+        if (savedInstanceState != null) {
+            // Restaurar el estado guardado
+            localScore = savedInstanceState.getInt("localScore");
+            guestScore = savedInstanceState.getInt("guestScore");
+            localYellowCards = savedInstanceState.getInt("localYellowCards");
+            guestYellowCards = savedInstanceState.getInt("guestYellowCards");
+            localRedCards = savedInstanceState.getInt("localRedCards");
+            guestRedCards = savedInstanceState.getInt("guestRedCards");
+            isChronometerRunning = savedInstanceState.getBoolean("isChronometerRunning");
+            timeWhenStopped = savedInstanceState.getLong("timeWhenStopped");
+            if (isChronometerRunning) {
+                chronometer.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
+                chronometer.start();
+            } else {
+                chronometer.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
+            }
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Guardar el estado
+        outState.putInt("localScore", localScore);
+        outState.putInt("guestScore", guestScore);
+        outState.putInt("localYellowCards", localYellowCards);
+        outState.putInt("guestYellowCards", guestYellowCards);
+        outState.putInt("localRedCards", localRedCards);
+        outState.putInt("guestRedCards", guestRedCards);
+        outState.putBoolean("isChronometerRunning", isChronometerRunning);
+        outState.putLong("timeWhenStopped", timeWhenStopped);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restaurar el estado guardado
+        localScore = savedInstanceState.getInt("localScore");
+        guestScore = savedInstanceState.getInt("guestScore");
+        localYellowCards = savedInstanceState.getInt("localYellowCards");
+        guestYellowCards = savedInstanceState.getInt("guestYellowCards");
+        localRedCards = savedInstanceState.getInt("localRedCards");
+        guestRedCards = savedInstanceState.getInt("guestRedCards");
+        isChronometerRunning = savedInstanceState.getBoolean("isChronometerRunning");
+        timeWhenStopped = savedInstanceState.getLong("timeWhenStopped");
+        if (isChronometerRunning) {
+            chronometer.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
+            chronometer.start();
+        } else {
+            chronometer.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
+        }
     }
 
     // Método para actualizar estadísticas en la tabla

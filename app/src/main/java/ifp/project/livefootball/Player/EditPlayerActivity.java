@@ -57,6 +57,13 @@ public class EditPlayerActivity extends AppCompatActivity {
         // Obtén si la actividad se inició desde ListPlayersActivity del Intent
         fromListPlayersActivity = getIntent().getBooleanExtra("FROM_LIST_PLAYERS_ACTIVITY", false);
 
+        if (savedInstanceState != null) {
+            // Restaurar el estado guardado
+            caja1.setText(savedInstanceState.getString("caja1Text"));
+            playerSpinner.setSelection(savedInstanceState.getInt("playerSelection"));
+            teamSpinner.setSelection(savedInstanceState.getInt("teamSelection"));
+        }
+
         playerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -130,7 +137,22 @@ public class EditPlayerActivity extends AppCompatActivity {
         }
         return -1; // Equipo no encontrado
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Guardar el estado
+        outState.putString("caja1Text", caja1.getText().toString());
+        outState.putInt("playerSelection", playerSpinner.getSelectedItemPosition());
+        outState.putInt("teamSelection", teamSpinner.getSelectedItemPosition());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restaurar el estado guardado
+        caja1.setText(savedInstanceState.getString("caja1Text"));
+        playerSpinner.setSelection(savedInstanceState.getInt("playerSelection"));
+        teamSpinner.setSelection(savedInstanceState.getInt("teamSelection"));
+    }
 }
-
-
-

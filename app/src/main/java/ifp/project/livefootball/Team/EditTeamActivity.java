@@ -36,6 +36,12 @@ public class EditTeamActivity extends AppCompatActivity {
         boton2 = findViewById(R.id.boton1_inicioEditTeam);
         spinner = findViewById(R.id.spinner_teams);
 
+        if (savedInstanceState != null) {
+            // Restaurar el estado guardado
+            caja1.setText(savedInstanceState.getString("caja1Text"));
+            spinner.setSelection(savedInstanceState.getInt("teamSelection"));
+        }
+
         ArrayList<Teams> teams = db.getTeams(); // obtener los equipos de la base de datos
         ArrayAdapter<Teams> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, teams);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -79,5 +85,21 @@ public class EditTeamActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Guardar el estado
+        outState.putString("caja1Text", caja1.getText().toString());
+        outState.putInt("teamSelection", spinner.getSelectedItemPosition());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restaurar el estado guardado
+        caja1.setText(savedInstanceState.getString("caja1Text"));
+        spinner.setSelection(savedInstanceState.getInt("teamSelection"));
     }
 }

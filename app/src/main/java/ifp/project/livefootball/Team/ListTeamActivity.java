@@ -41,6 +41,11 @@ public class ListTeamActivity extends AppCompatActivity {
         ArrayAdapter<Teams> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayList);
         listView1.setAdapter(arrayAdapter);
 
+        if (savedInstanceState != null) {
+            // Restaurar el estado guardado
+            textContent = savedInstanceState.getString("textContent");
+        }
+
         listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -61,5 +66,19 @@ public class ListTeamActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Guardar el estado
+        outState.putString("textContent", textContent);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restaurar el estado guardado
+        textContent = savedInstanceState.getString("textContent");
     }
 }

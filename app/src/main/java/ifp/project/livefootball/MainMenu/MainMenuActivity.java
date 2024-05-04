@@ -4,16 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import ifp.project.livefootball.Account.LogInActivity;
 import ifp.project.livefootball.Match.MatchOnLineActivity;
 import ifp.project.livefootball.Player.EditPlayerActivity;
-import ifp.project.livefootball.Player.PlayerCreateActivity;
+import ifp.project.livefootball.Player.CreatePlayerActivity;
 import ifp.project.livefootball.R;
 import ifp.project.livefootball.Match.CreateMatchActivity;
 import ifp.project.livefootball.Match.EditMatchActivity;
@@ -21,7 +21,6 @@ import ifp.project.livefootball.Database.Database;
 import ifp.project.livefootball.Team.CreateTeamActivity;
 import ifp.project.livefootball.Team.EditTeamActivity;
 import ifp.project.livefootball.Team.ListTeamActivity;
-import ifp.project.livefootball.Account.User;
 
 public class MainMenuActivity extends AppCompatActivity {
     private Button botonCrearPartido;
@@ -90,6 +89,21 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void enableButtonsForEntrenador() {
+        botonCrearPartido.setEnabled(true);
+        botonCrearEquipo.setEnabled(true);
+        botonCrearJugador.setEnabled(true);
+
+        botonEditarPartido.setEnabled(false);
+        botonEditarEquipo.setEnabled(false);
+        botonEditarJugador.setEnabled(false);
+        botonMostrarEquipo.setEnabled(false);
+        botonPartidoEnCurso.setEnabled(false);
+
+        botonEditarPartido.setBackgroundColor(Color.GRAY);
+        botonEditarEquipo.setBackgroundColor(Color.GRAY);
+        botonEditarJugador.setBackgroundColor(Color.GRAY);
+        botonMostrarEquipo.setBackgroundColor(Color.GRAY);
+        botonPartidoEnCurso.setBackgroundColor(Color.GRAY);
         botonCrearPartido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,13 +123,26 @@ public class MainMenuActivity extends AppCompatActivity {
         botonCrearJugador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, PlayerCreateActivity.class);
+                Intent intent = new Intent(MainMenuActivity.this, CreatePlayerActivity.class);
                 startActivity(intent);
             }
         });
     }
 
     private void enableButtonsForAsistente() {
+        botonCrearPartido.setEnabled(false);
+        botonCrearEquipo.setEnabled(false);
+        botonCrearJugador.setEnabled(false);
+
+        botonEditarPartido.setEnabled(true);
+        botonEditarEquipo.setEnabled(true);
+        botonEditarJugador.setEnabled(true);
+        botonMostrarEquipo.setEnabled(true);
+        botonPartidoEnCurso.setEnabled(true);
+
+        botonCrearPartido.setBackgroundColor(Color.GRAY);
+        botonCrearEquipo.setBackgroundColor(Color.GRAY);
+        botonCrearJugador.setBackgroundColor(Color.GRAY);
         botonEditarPartido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

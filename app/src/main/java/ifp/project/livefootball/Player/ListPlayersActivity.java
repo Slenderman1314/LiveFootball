@@ -49,7 +49,12 @@ public class ListPlayersActivity extends AppCompatActivity {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayList);
         listView1.setAdapter(arrayAdapter);
 
-        // Aquí puedes configurar los listeners para los elementos de la lista y otros componentes de la UI
+        if (savedInstanceState != null) {
+            // Restaurar el estado guardado
+            teamName = savedInstanceState.getString("teamName");
+            playerName = savedInstanceState.getString("playerName");
+        }
+
         listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -74,5 +79,21 @@ public class ListPlayersActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Guardar el estado
+        outState.putString("teamName", teamName);
+        outState.putString("playerName", playerName);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restaurar el estado guardado
+        teamName = savedInstanceState.getString("teamName");
+        playerName = savedInstanceState.getString("playerName");
     }
 }

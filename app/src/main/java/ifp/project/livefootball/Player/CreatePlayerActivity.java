@@ -1,9 +1,8 @@
 package ifp.project.livefootball.Player;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.content.ContentValues;
+
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -17,7 +16,7 @@ import ifp.project.livefootball.MainMenu.MainMenuActivity;
 import ifp.project.livefootball.R;
 import ifp.project.livefootball.Team.Teams;
 
-public class PlayerCreateActivity extends AppCompatActivity {
+public class CreatePlayerActivity extends AppCompatActivity {
 
     private Database db;
     private EditText caja1;
@@ -43,6 +42,12 @@ public class PlayerCreateActivity extends AppCompatActivity {
         ArrayAdapter<Teams> adapter = new ArrayAdapter<Teams>(this, android.R.layout.simple_spinner_item, teams);
         spinner1.setAdapter(adapter);
 
+        if (savedInstanceState != null) {
+            // Restaurar el estado guardado
+            caja1.setText(savedInstanceState.getString("caja1Text"));
+            spinner1.setSelection(savedInstanceState.getInt("spinner1Selection"));
+        }
+
         boton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,13 +55,13 @@ public class PlayerCreateActivity extends AppCompatActivity {
                 String teamName = spinner1.getSelectedItem() != null ? spinner1.getSelectedItem().toString() : "";
 
                 if (playerName.isEmpty()) {
-                    Toast.makeText(PlayerCreateActivity.this, "Por favor, ingresa el nombre del jugador", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreatePlayerActivity.this, "Por favor, ingresa el nombre del jugador", Toast.LENGTH_SHORT).show();
                 } else if (teamName.equals("Seleccione equipo")) {
-                    Toast.makeText(PlayerCreateActivity.this, "Por favor, selecciona un equipo", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreatePlayerActivity.this, "Por favor, selecciona un equipo", Toast.LENGTH_SHORT).show();
                 } else {
                     // Insertar jugador en la base de datos
                     db.insertPlayer(playerName, getTeamId(teamName), teamName);
-                    Toast.makeText(PlayerCreateActivity.this, "Jugador registrado con éxito", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreatePlayerActivity.this, "Jugador registrado con éxito", Toast.LENGTH_SHORT).show();
                     caja1.setText("");
                 }
             }
@@ -66,7 +71,7 @@ public class PlayerCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Redirige al usuario al menú
-                changeActivity = new Intent(PlayerCreateActivity.this, MainMenuActivity.class);
+                changeActivity = new Intent(CreatePlayerActivity.this, MainMenuActivity.class);
                 startActivity(changeActivity);
                 finish();
             }
@@ -83,6 +88,22 @@ public class PlayerCreateActivity extends AppCompatActivity {
             }
         }
         return -1; // Equipo no encontrado
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Guardar el estado
+        outState.putString("caja1Text", caja1.getText().toString());
+        outState.putInt("spinner1Selection", spinner1.getSelectedItemPosition());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restaurar el estado guardado
+        caja1.setText(savedInstanceState.getString("caja1Text"));
+        spinner1.setSelection(savedInstanceState.getInt("spinner1Selection"));
     }
 }
 

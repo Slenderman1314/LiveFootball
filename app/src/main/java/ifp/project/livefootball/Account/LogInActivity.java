@@ -43,6 +43,11 @@ public class LogInActivity extends AppCompatActivity {
         ima1 = (ImageView) findViewById(R.id.ima1_login);
         db = new Database(this);
 
+        if (savedInstanceState != null) {
+            caja1.setText(savedInstanceState.getString("caja1"));
+            caja2.setText(savedInstanceState.getString("caja2"));
+        }
+
         boton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,7 +81,6 @@ public class LogInActivity extends AppCompatActivity {
             }
         });
 
-
         boton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,5 +89,12 @@ public class LogInActivity extends AppCompatActivity {
                 startActivity(changeActivity);
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("caja1", caja1.getText().toString());
+        outState.putString("caja2", caja2.getText().toString());
     }
 }

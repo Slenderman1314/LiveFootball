@@ -30,6 +30,7 @@ public class CreateMatchActivity extends AppCompatActivity {
     protected Intent changeActivity;
     private ListView listView;
     private ArrayAdapter<String> adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +55,11 @@ public class CreateMatchActivity extends AppCompatActivity {
         localTeamSpinner.setAdapter(teamAdapter);
         guestTeamSpinner.setAdapter(teamAdapter);
 
+        if (savedInstanceState != null) {
+            // Restaurar el estado guardado
+            localTeamSpinner.setSelection(savedInstanceState.getInt("localTeamSelection"));
+            guestTeamSpinner.setSelection(savedInstanceState.getInt("guestTeamSelection"));
+        }
 
         boton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +119,23 @@ public class CreateMatchActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Guardar el estado
+        outState.putInt("localTeamSelection", localTeamSpinner.getSelectedItemPosition());
+        outState.putInt("guestTeamSelection", guestTeamSpinner.getSelectedItemPosition());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restaurar el estado guardado
+        localTeamSpinner.setSelection(savedInstanceState.getInt("localTeamSelection"));
+        guestTeamSpinner.setSelection(savedInstanceState.getInt("guestTeamSelection"));
+    }
 }
+
 
 

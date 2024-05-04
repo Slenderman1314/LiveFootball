@@ -30,12 +30,11 @@ public class RegisterActivity extends AppCompatActivity {
     private Button boton2;
     private ImageView ima1;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
         label1 = (TextView) findViewById(R.id.label1_register);
         label2 = (TextView) findViewById(R.id.label2_register);
         caja1 = (EditText) findViewById(R.id.caja1_register);
@@ -46,9 +45,14 @@ public class RegisterActivity extends AppCompatActivity {
         radioBoton2 = (RadioButton) findViewById(R.id.radioBoton2_register);
         boton1 = (Button) findViewById(R.id.boton1_register);
         boton2 = (Button) findViewById(R.id.boton2_register);
-        ima1 = (ImageView) findViewById(R.id.ima1_logo);
+        ima1 = (ImageView) findViewById(R.id.ima1_playerEdit);
 
         db = new Database(this);
+
+        if (savedInstanceState != null) {
+            caja1.setText(savedInstanceState.getString("caja1"));
+            caja2.setText(savedInstanceState.getString("caja2"));
+        }
 
         boton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +82,12 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(changeActivity);
             }
         });
+    }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("caja1", caja1.getText().toString());
+        outState.putString("caja2", caja2.getText().toString());
     }
 }

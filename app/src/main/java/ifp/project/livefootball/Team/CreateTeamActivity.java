@@ -30,6 +30,11 @@ public class CreateTeamActivity extends AppCompatActivity {
         boton1 = findViewById(R.id.button1_createTeam);
         boton2 = findViewById(R.id.boton1_inicioCreateTeam);
 
+        if (savedInstanceState != null) {
+            // Restaurar el estado guardado
+            caja1.setText(savedInstanceState.getString("caja1Text"));
+        }
+
         boton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,5 +58,19 @@ public class CreateTeamActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Guardar el estado
+        outState.putString("caja1Text", caja1.getText().toString());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restaurar el estado guardado
+        caja1.setText(savedInstanceState.getString("caja1Text"));
     }
 }
