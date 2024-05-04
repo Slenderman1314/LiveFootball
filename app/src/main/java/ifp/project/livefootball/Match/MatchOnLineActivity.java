@@ -32,7 +32,6 @@ public class MatchOnLineActivity extends AppCompatActivity {
     private int localRedCards = 0;
     private int guestRedCards = 0;
     private static final int HALF_TIME = 45 * 60 * 1000; // 45 minutes in milliseconds
-    private static final int BREAK_TIME = 15 * 60 * 1000; // 15 minutes in milliseconds
     private boolean isHalfTimeBreak = false;
     private TextView localScoreView;
     private TextView guestScoreView;
@@ -54,6 +53,7 @@ public class MatchOnLineActivity extends AppCompatActivity {
     private Button guestRedCardsButton;
     private Button botonCrono;
     private boolean isChronometerRunning = false;
+    private long timeWhenStopped = 0; // Añade esta variable al principio de tu clase
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,11 +104,11 @@ public class MatchOnLineActivity extends AppCompatActivity {
                         updateStatistics(matchId); // Llamar al método updateStatistics aquí
                     } else {
                         // Mostrar un mensaje de error al usuario
-                        Toast.makeText(getApplicationContext(), "Error: Toast: 1 ': ' en " + parts[0], Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Error: El formato del partido no es correcto. Se esperaba ': ' en " + parts[0], Toast.LENGTH_LONG).show();
                     }
                 } else {
                     // Mostrar un mensaje de error al usuario
-                    Toast.makeText(getApplicationContext(), "Error: Toast: 2  ' - ' en " + matchInfo, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Error: El formato del partido no es correcto. Se esperaba ' - ' en " + matchInfo, Toast.LENGTH_LONG).show();
                 }
             }
             @Override
@@ -120,9 +120,10 @@ public class MatchOnLineActivity extends AppCompatActivity {
         botonCrono.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView partidoEnCurso = findViewById(R.id.textView7); // Asegúrate de que este es el ID correcto para el TextView "Partido en curso"
+                TextView partidoEnCurso = findViewById(R.id.textView7);
                 if (!isChronometerRunning) {
                     // Si el cronómetro no está en ejecución, iniciar el cronómetro
+                    chronometer.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
                     chronometer.start();
                     isChronometerRunning = true; // El cronómetro está en ejecución
                     botonCrono.setText("Parar"); // Cambiar el texto del botón a "Parar"
@@ -136,34 +137,16 @@ public class MatchOnLineActivity extends AppCompatActivity {
                     Toast.makeText(MatchOnLineActivity.this, "¡Cronómetro iniciado!", Toast.LENGTH_SHORT).show();
                 } else {
                     // Si el cronómetro está en ejecución, detener el cronómetro
+                    timeWhenStopped = chronometer.getBase() - SystemClock.elapsedRealtime();
                     chronometer.stop();
                     isChronometerRunning = false; // El cronómetro no está en ejecución
-                    botonCrono.setText("Continuar"); // Cambiar el texto del botón a "Continuar"
+                    botonCrono.setText("Inicio"); // Cambiar el texto del botón a "Inicio"
                     // Detener el parpadeo del texto "Partido en curso"
                     partidoEnCurso.clearAnimation();
                     Toast.makeText(MatchOnLineActivity.this, "Cronómetro detenido.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (!isHalfTimeBreak) {
-                    chronometer.stop();
-                    Toast.makeText(MatchOnLineActivity.this, "!Medio Tiempo! Tómate 15 minutos de descanso.", Toast.LENGTH_SHORT).show();
-                    isHalfTimeBreak = true;
-                    handler.postDelayed(this, BREAK_TIME);
-                } else {
-                    chronometer.setBase(SystemClock.elapsedRealtime());
-                    chronometer.start();
-                    Toast.makeText(MatchOnLineActivity.this, "!Inicio de la segunda parte!", Toast.LENGTH_SHORT).show();
-                    isHalfTimeBreak = false;
-                    matchSpinner.setEnabled(false); // Bloquear el Spinner una vez que el cronómetro se inicie
-                }
-            }
-        }, HALF_TIME);
 
         localScoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
