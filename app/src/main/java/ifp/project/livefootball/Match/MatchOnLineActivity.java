@@ -16,10 +16,14 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Handler;
 import android.widget.Toast;
+
 import java.util.ArrayList;
+
 import ifp.project.livefootball.Database.Database;
 import ifp.project.livefootball.MainMenu.MainMenuActivity;
 import ifp.project.livefootball.R;
@@ -110,7 +114,25 @@ public class MatchOnLineActivity extends AppCompatActivity {
                     // Mostrar un mensaje de error al usuario
                     Toast.makeText(getApplicationContext(), "Error: El formato del partido no es correcto. Se esperaba ' - ' en " + matchInfo, Toast.LENGTH_LONG).show();
                 }
+                if (position == 0) { // Si no se seleccionó un equipo (posición 0 es "Seleccione partido")
+                    localScoreButton.setEnabled(false);
+                    guestScoreButton.setEnabled(false);
+                    localYellowCardsButton.setEnabled(false);
+                    guestYellowCardsButton.setEnabled(false);
+                    localRedCardsButton.setEnabled(false);
+                    guestRedCardsButton.setEnabled(false);
+                    botonCrono.setEnabled(false);
+                } else {
+                    localScoreButton.setEnabled(true);
+                    guestScoreButton.setEnabled(true);
+                    localYellowCardsButton.setEnabled(true);
+                    guestYellowCardsButton.setEnabled(true);
+                    localRedCardsButton.setEnabled(true);
+                    guestRedCardsButton.setEnabled(true);
+                    botonCrono.setEnabled(true);
+                }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // No hacer nada
@@ -347,4 +369,3 @@ public class MatchOnLineActivity extends AppCompatActivity {
         guestRedCardsView.setText(String.valueOf(stats.getGuestRedCards()));
     }
 }
-
