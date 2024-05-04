@@ -3,6 +3,7 @@ package ifp.project.livefootball.Account;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -55,6 +56,13 @@ public class LogInActivity extends AppCompatActivity {
                     if (db.getUser(name) != null && db.getPass(name) != null) {
                         if (db.getUser(name).equals(name) && db.getPass(name).equals(pass)) {
                             Toast.makeText(LogInActivity.this, "Tienes acceso", Toast.LENGTH_SHORT).show();
+
+                            // Guarda el nombre de usuario en las preferencias compartidas
+                            SharedPreferences prefs = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putString("userName", name);
+                            editor.apply();
+
                             changeActivity = new Intent(LogInActivity.this, MainMenuActivity.class);
                             finish();
                             startActivity(changeActivity);
@@ -67,6 +75,7 @@ public class LogInActivity extends AppCompatActivity {
                 }
             }
         });
+
 
         boton2.setOnClickListener(new View.OnClickListener() {
             @Override

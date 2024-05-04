@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import ifp.project.livefootball.Account.User;
+import ifp.project.livefootball.Match.MatchStatistics;
 import ifp.project.livefootball.Team.Teams;
 
 public class Database extends SQLiteOpenHelper {
@@ -19,7 +20,7 @@ public class Database extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS teams (idTeams INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL , name VARCHAR)");
         db.execSQL("CREATE TABLE IF NOT EXISTS players (idPlayer INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, playerName VARCHAR ,idTeam INTEGER, team VARCHAR, FOREIGN KEY (idTeam) REFERENCES teams(idTeams))");
-        db.execSQL("CREATE TABLE IF NOT EXISTS footballMatch (idMatch INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL , idLocalTeam teams, idGuestTeam teams, localScore INTEGER, guestScore INTEGER, localTeamName String, guestTeamName String, localYellowCards INTEGER, guestYellowCards INTEGER, FOREIGN KEY (idLocalTeam) REFERENCES teams(idTeams), FOREIGN KEY (idGuestTeam) REFERENCES teams(idTeams))");
+        db.execSQL("CREATE TABLE IF NOT EXISTS footballMatch (idMatch INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL , idLocalTeam teams, idGuestTeam teams, localScore INTEGER, guestScore INTEGER, localTeamName String, guestTeamName String, localYellowCards INTEGER, guestYellowCards INTEGER, localRedCards INTEGER, guestRedCards INTEGER,FOREIGN KEY (idLocalTeam) REFERENCES teams(idTeams), FOREIGN KEY (idGuestTeam) REFERENCES teams(idTeams))");
         db.execSQL("CREATE TABLE IF NOT EXISTS users (idUser INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, userName VARCHAR, password VARCHAR, userType VARCHAR)");
     }
 
@@ -91,6 +92,30 @@ public class Database extends SQLiteOpenHelper {
         db.update("footballMatch", contentValues, whereClause, whereArgs);
     }
 
+    // Método de actualización para partidos en curso
+    public MatchStatistics getMatchStatistics(int matchId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query("footballMatch", new String[] {
+                "localScore", "guestScore", "localYellowCards", "guestYellowCards", "localRedCards", "guestRedCards"
+        }, "idMatch = ?", new String[] { String.valueOf(matchId) }, null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            MatchStatistics stats = new MatchStatistics(
+                    cursor.getInt(0),
+                    cursor.getInt(1),
+                    cursor.getInt(2),
+                    cursor.getInt(3),
+                    cursor.getInt(4),
+                    cursor.getInt(5)
+            );
+            cursor.close();
+            return stats;
+        } else {
+            return null;
+        }
+    }
+
+
     // Método de eliminación para partidos
     public void deleteMatch(int idMatch) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -127,6 +152,22 @@ public class Database extends SQLiteOpenHelper {
         cursor.close();
         return null;
     }
+
+    // Método para conseguir el tipo de usuario
+    public String getUserType(String userName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT userType FROM users WHERE userName = ?", new String[]{userName});
+
+        if (cursor.moveToFirst()) {
+            int typeColumnIndex = cursor.getColumnIndex("userType");
+            if (typeColumnIndex != -1) {
+                return cursor.getString(typeColumnIndex);
+            }
+        }
+        cursor.close();
+        return null;
+    }
+
 
     // Método para inseertar un usuario nuevo
     public void insertUser(User user) {

@@ -12,34 +12,37 @@
         android:theme="@style/Theme.LiveFootball"
         tools:targetApi="31">
         <activity
-            android:name="ifp.project.livefootball.Team.ListTeamActivity"
+            android:name=".Match.MatchOnLineActivity"
             android:exported="false" />
         <activity
-            android:name="ifp.project.livefootball.Player.EditPlayerActivity"
+            android:name=".Team.ListTeamActivity"
             android:exported="false" />
         <activity
-            android:name="ifp.project.livefootball.Player.PlayerCreateActivity"
+            android:name=".Player.EditPlayerActivity"
             android:exported="false" />
         <activity
-            android:name="ifp.project.livefootball.Team.EditTeamActivity"
+            android:name=".Player.PlayerCreateActivity"
             android:exported="false" />
         <activity
-            android:name="ifp.project.livefootball.Team.CreateTeamActivity"
+            android:name=".Team.EditTeamActivity"
             android:exported="false" />
         <activity
-            android:name="ifp.project.livefootball.Match.EditMatchActivity"
+            android:name=".Team.CreateTeamActivity"
             android:exported="false" />
         <activity
-            android:name="ifp.project.livefootball.Match.CreateMatchActivity"
+            android:name=".Match.EditMatchActivity"
             android:exported="false" />
         <activity
-            android:name="ifp.project.livefootball.Account.LogInActivity"
+            android:name=".Match.CreateMatchActivity"
             android:exported="false" />
         <activity
-            android:name="ifp.project.livefootball.Account.RegisterActivity"
+            android:name=".Account.LogInActivity"
             android:exported="false" />
         <activity
-            android:name="ifp.project.livefootball.MainMenu.MainMenuActivity"
+            android:name=".Account.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainMenu.MainMenuActivity"
             android:exported="false" />
         <activity
             android:name=".MainMenu.MainActivity"
