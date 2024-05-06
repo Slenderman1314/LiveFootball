@@ -9,6 +9,14 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
     <string name="equipos_registrados">Equipos registrados</string>
+    <string name="equipo_local">Equipo local</string>
+    <string name="equipo_visitante">Equipo visitante</string>
+    <string name="jugador_modificar">Seleccione jugador a modificar</string>
+    <string name="modificar_equipo_jugador">Modificar equipo del jugador</string>
+    <string name="equipo_modificar">Seleccione equipo a modificar</string>
+    <string name="partido_curso">Seleccione partido</string>
+    <string name="equipo_jugador">Seleccione equipo</string>
 
 </resources>
