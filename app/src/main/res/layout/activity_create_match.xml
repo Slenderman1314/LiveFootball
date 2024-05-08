@@ -63,28 +63,31 @@
 
     <Button
         android:id="@+id/boton1_inicioCreateMatch"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="158dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="158dp"
         android:layout_marginBottom="32dp"
         android:text="Inicio"
         app:layout_constraintBottom_toTopOf="@+id/ima1_create_match"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerMatchButton" />
 
     <Button
         android:id="@+id/registerMatchButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="106dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="106dp"
         android:layout_marginBottom="4dp"
         android:text="Registrar partido"
         app:layout_constraintBottom_toTopOf="@+id/boton1_inicioCreateMatch"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lista1_createMatch" />
 
     <Spinner
         android:id="@+id/spinner_localTeam"

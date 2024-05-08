@@ -8,16 +8,17 @@
 
     <Button
         android:id="@+id/boton1_inicioCreateTeam"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="158dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="158dp"
         android:layout_marginBottom="32dp"
         android:text="Inicio"
         app:layout_constraintBottom_toTopOf="@+id/ima1_create_team"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button1_createTeam" />
 
     <ImageView
         android:id="@+id/ima1_create_team"
@@ -57,20 +58,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView1_createTeam"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textView1_createTeam" />
 
     <Button
         android:id="@+id/button1_createTeam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="116dp"
+        android:layout_marginTop="311dp"
         android:layout_marginEnd="116dp"
         android:layout_marginBottom="4dp"
         android:text="Registrar Equipo"
         app:layout_constraintBottom_toTopOf="@+id/boton1_inicioCreateTeam"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText1_createTeam" />
 
     <TextView
         android:id="@+id/textView16"

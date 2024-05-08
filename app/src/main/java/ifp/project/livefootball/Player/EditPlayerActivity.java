@@ -23,9 +23,10 @@ public class EditPlayerActivity extends AppCompatActivity {
 
     private Database db;
     private EditText caja1;
-    private Spinner teamSpinner, playerSpinner;
+    private Spinner teamSpinner, playerSpinner, oldTeamSpinner;
     private Button boton1;
     private Button boton2;
+    private String teamName;
     protected Intent changeActivity;
     private ArrayList<Teams> teams;
     private ArrayList<String> players;
@@ -41,6 +42,7 @@ public class EditPlayerActivity extends AppCompatActivity {
         caja1 = findViewById(R.id.editText1_playerEdit);
         playerSpinner = findViewById(R.id.spinner_playerPlayerEdit);
         teamSpinner = findViewById(R.id.spinner_teamPlayerEdit);
+        oldTeamSpinner = findViewById(R.id.spinnerEditPlayer);
         boton1 = findViewById(R.id.button1_playerEdit);
         boton2 = findViewById(R.id.boton1_inicioplayerEdit);
 
@@ -62,7 +64,68 @@ public class EditPlayerActivity extends AppCompatActivity {
             caja1.setText(savedInstanceState.getString("caja1Text"));
             playerSpinner.setSelection(savedInstanceState.getInt("playerSelection"));
             teamSpinner.setSelection(savedInstanceState.getInt("teamSelection"));
+            oldTeamSpinner.setSelection(savedInstanceState.getInt("teamSelection"));
         }
+
+        ArrayList<Teams> teams = db.getTeams();
+        teams.add(0, new Teams(0, "Seleccione equipo")); // Agregar un objeto Teams con id 0 y nombre "Seleccione equipo"
+        //ArrayAdapter<Teams> teamAdapter = new ArrayAdapter<>(EditPlayerActivity.this, android.R.layout.simple_spinner_item, teams);
+        oldTeamSpinner.setAdapter(teamAdapter);
+
+        // Comprueba si el Intent contiene el nombre del equipo
+        if (getIntent().hasExtra("TEAM")) {
+            teamName = getIntent().getStringExtra("TEAM");
+
+            // Selecciona el equipo en el Spinner
+            for (int i = 0; i < teams.size(); i++) {
+                if (teams.get(i).getName().equals(teamName)) {
+                    oldTeamSpinner.setSelection(i);
+                    break;
+                }
+            }
+        }
+
+        teamSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0) {
+                    String selectedTeamName = teams.get(position).getName();
+                    if (selectedTeamName != null && !selectedTeamName.equals("Seleccione equipo")) {
+                        ArrayList<String> teamPlayers = db.getPlayersByTeam(selectedTeamName);
+                        teamPlayers.add(0, "Seleccione jugador");
+                        ArrayAdapter<String> playerAdapter = new ArrayAdapter<>(EditPlayerActivity.this, android.R.layout.simple_spinner_item, teamPlayers);
+                        playerSpinner.setAdapter(playerAdapter);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
+
+        oldTeamSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0) {
+                    String selectedTeamName = teams.get(position).getName();
+                    ArrayList<String> teamPlayers = db.getPlayersByTeam(selectedTeamName);
+                    teamPlayers.add(0, "Seleccione jugador");
+                    ArrayAdapter<String> playerAdapter = new ArrayAdapter<>(EditPlayerActivity.this, android.R.layout.simple_spinner_item, teamPlayers);
+                    playerSpinner.setAdapter(playerAdapter);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
+
+// Llama manualmente al método onItemSelected
+        teamSpinner.getOnItemSelectedListener().onItemSelected(teamSpinner, null, teamSpinner.getSelectedItemPosition(), 0);
+
 
         playerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -103,7 +166,7 @@ public class EditPlayerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String oldPlayerName = playerSpinner.getSelectedItem().toString();
                 String newPlayerName = caja1.getText().toString();
-                String teamName = teamSpinner.getSelectedItem() != null ? teamSpinner.getSelectedItem().toString() : "";
+                String teamName = ((Teams) teamSpinner.getSelectedItem()).getName();
 
                 if (newPlayerName.isEmpty()) {
                     Toast.makeText(EditPlayerActivity.this, "Por favor, ingresa el nombre del jugador", Toast.LENGTH_SHORT).show();
@@ -116,6 +179,7 @@ public class EditPlayerActivity extends AppCompatActivity {
                 }
             }
         });
+
 
         boton2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,6 +209,7 @@ public class EditPlayerActivity extends AppCompatActivity {
         outState.putString("caja1Text", caja1.getText().toString());
         outState.putInt("playerSelection", playerSpinner.getSelectedItemPosition());
         outState.putInt("teamSelection", teamSpinner.getSelectedItemPosition());
+        outState.putInt("teamSelection", oldTeamSpinner.getSelectedItemPosition());
     }
 
     @Override
@@ -154,5 +219,6 @@ public class EditPlayerActivity extends AppCompatActivity {
         caja1.setText(savedInstanceState.getString("caja1Text"));
         playerSpinner.setSelection(savedInstanceState.getInt("playerSelection"));
         teamSpinner.setSelection(savedInstanceState.getInt("teamSelection"));
+        oldTeamSpinner.setSelection(savedInstanceState.getInt("teamSelection"));
     }
 }

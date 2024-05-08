@@ -23,9 +23,10 @@
 
     <Button
         android:id="@+id/boton2_inicioEditMatch"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="158dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="158dp"
         android:layout_marginBottom="32dp"
         android:gravity="center_vertical"
@@ -33,8 +34,9 @@
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/ima1_create_match"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/boton1_updateMatch" />
 
     <ImageView
         android:id="@+id/ima1_create_match"
@@ -67,13 +69,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="106dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="106dp"
         android:layout_marginBottom="4dp"
         android:text="Actualizar partido"
         app:layout_constraintBottom_toTopOf="@+id/boton2_inicioEditMatch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lista1_editMatch" />
 
     <TextView
         android:id="@+id/textView"
