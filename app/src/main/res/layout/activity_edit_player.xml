@@ -79,28 +79,31 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
         android:text="Modificar equipo del jugador:"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/spinner_newTeamPlayerEdit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText1_playerEdit" />
 
     <Spinner
-        android:id="@+id/spinner_teamPlayerEdit"
+        android:id="@+id/spinner_newTeamPlayerEdit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
         android:prompt="@string/modificar_equipo_jugador"
         android:spinnerMode="dialog"
         app:layout_constraintBottom_toTopOf="@+id/button1_playerEdit"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2_playerEdit" />
 
@@ -117,7 +120,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.545"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_teamPlayerEdit" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner_newTeamPlayerEdit" />
 
     <TextView
         android:id="@+id/textView1"
@@ -135,7 +138,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
     <Spinner
-        android:id="@+id/spinnerEditPlayer"
+        android:id="@+id/spinner_oldTeamEditPlayer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -159,7 +162,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerEditPlayer" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner_oldTeamEditPlayer" />
 
     <TextView
         android:id="@+id/textView12"

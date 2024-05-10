@@ -76,7 +76,7 @@ public class Database extends SQLiteOpenHelper {
     }
 
     // Método para conseguir el id de un equipo
-    private int getTeamId(String teamName) {
+    public int getTeamId(String teamName) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT idTeams FROM teams WHERE name = ?", new String[]{teamName});
         try {
@@ -90,7 +90,24 @@ public class Database extends SQLiteOpenHelper {
         }
     }
 
-/** PLAYERS **/
+    public boolean deleteTeam(String teamName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Verificar si hay jugadores en el equipo
+        Cursor cursor = db.rawQuery("SELECT * FROM players WHERE team = ?", new String[]{teamName});
+        if (cursor.getCount() > 0) {
+            // Hay jugadores en el equipo, no se puede eliminar
+            cursor.close();
+            return false;
+        }
+        cursor.close();
+        // No hay jugadores en el equipo, se puede eliminar
+        db.delete("teams", "name = ?", new String[]{teamName});
+        return true;
+    }
+
+
+
+    /** PLAYERS **/
 
     // Método de inserción para jugadores
     public void insertPlayer(String playerName, int idTeam, String teamName) {
@@ -103,29 +120,21 @@ public class Database extends SQLiteOpenHelper {
     }
 
     // Método de actualización para jugadores
-    public boolean updatePlayerTeam(String oldPlayerName, String newPlayerName, int newTeamId, String newTeamName) {
-        SQLiteDatabase db = null;
-        try {
-            db = this.getWritableDatabase();
-            ContentValues contentValues = new ContentValues();
-            contentValues.put("playerName", newPlayerName);
-            contentValues.put("idTeam", newTeamId);
-            contentValues.put("team", newTeamName);
-            String whereClause = "playerName = ?";
-            String[] whereArgs = {oldPlayerName};
-            int rowsAffected = db.update("players", contentValues, whereClause, whereArgs);
-            return rowsAffected > 0;
-        } catch (Exception e) {
-            // Manejar la excepción
-            Log.e("Database", "Error al actualizar el jugador", e);
-            return false;
-        } finally {
-            if (db != null) {
-                db.close();
-            }
-        }
-    }
+    public void updatePlayerTeam(String oldPlayerName, String newPlayerName, int newTeamId, String newTeamName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("playerName", newPlayerName);
+        contentValues.put("idTeam", newTeamId);
+        contentValues.put("team", newTeamName); // Agregar esta línea para actualizar el nombre del equipo
+        String whereClause = "playerName = ?";
+        String[] whereArgs = {oldPlayerName};
+        db.update("players", contentValues, whereClause, whereArgs);
+        // Imprimir la consulta de actualización
+        String query = "UPDATE players SET playerName = '" + newPlayerName + "', idTeam = " + newTeamId + ", team = '" + newTeamName + "' WHERE playerName = '" + oldPlayerName + "'";
+        Log.d("Database", "updatePlayerTeam: " + query);
 
+        db.update("players", contentValues, whereClause, whereArgs);
+    }
 
     // Método para listar jugadores
     public ArrayList<String> getPlayers() {
@@ -168,7 +177,13 @@ public class Database extends SQLiteOpenHelper {
         return playerList;
     }
 
-/** MATCHES **/
+    public void deletePlayer(String playerName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("players", "playerName = ?", new String[]{playerName});
+    }
+
+
+    /** MATCHES **/
 
     // Método de inserción para partidos
     public void insertMatch(int localTeamId, int guestTeamId, String nameLocalTeam, String nameGuestTeam) {

@@ -1,5 +1,6 @@
 package ifp.project.livefootball.Player;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -96,12 +98,41 @@ public class ListPlayersActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 playerName = adapterView.getItemAtPosition(i).toString();
+                teamName = adapterView.getItemAtPosition(i).toString();
                 pasarPantalla = new Intent(ListPlayersActivity.this, EditPlayerActivity.class);
                 pasarPantalla.putExtra("PLAYER_NAME", playerName);
+                pasarPantalla.putExtra("PLAYER_TEAM", teamName);
                 pasarPantalla.putExtra("FROM_LIST_PLAYERS_ACTIVITY", true);
                 startActivity(pasarPantalla);
             }
         });
+
+        listView1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                playerName = parent.getItemAtPosition(position).toString();
+
+                new AlertDialog.Builder(ListPlayersActivity.this)
+                        .setTitle("Eliminar Jugador")
+                        .setMessage("¿Estás seguro de que quieres eliminar a " + playerName + "?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Continuar con la eliminación
+                                db.deletePlayer(playerName);
+                                // Actualizar la lista de jugadores
+                                arrayList = db.getPlayersByTeam(teamName);
+                                adapter = new ArrayAdapter<>(ListPlayersActivity.this, android.R.layout.simple_list_item_1, arrayList);
+                                listView1.setAdapter(adapter);
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+                return true; // Indica que el evento de clic largo ha sido manejado
+            }
+        });
+
 
         boton2.setOnClickListener(new View.OnClickListener() {
             @Override

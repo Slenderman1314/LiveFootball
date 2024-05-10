@@ -124,4 +124,11 @@ public class LogInActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.getItem(0);  // Obtiene el primer elemento del menú
+        item.setVisible(false);  // Oculta el primer elemento del menú
+        return super.onPrepareOptionsMenu(menu);
+    }
+
 }

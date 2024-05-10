@@ -1,7 +1,9 @@
 package ifp.project.livefootball.Team;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -58,6 +61,40 @@ public class ListTeamActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        listView1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Teams selectedTeam = (Teams) parent.getItemAtPosition(position);
+                String teamName = selectedTeam.getName();
+
+                new AlertDialog.Builder(ListTeamActivity.this)
+                        .setTitle("Eliminar Equipo")
+                        .setMessage("¿Estás seguro de que quieres eliminar el equipo " + teamName + "?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Intentar eliminar el equipo
+                                boolean teamDeleted = db.deleteTeam(teamName);
+                                if (teamDeleted) {
+                                    // El equipo se eliminó, actualizar la lista de equipos
+                                    arrayList = db.getTeams();
+                                    ArrayAdapter<Teams> arrayAdapter = new ArrayAdapter<>(ListTeamActivity.this, android.R.layout.simple_list_item_1, arrayList);
+                                    listView1.setAdapter(arrayAdapter);
+                                } else {
+                                    // El equipo no se pudo eliminar, mostrar un mensaje
+                                    Toast.makeText(ListTeamActivity.this, "No se puede eliminar el equipo porque tiene jugadores asignados", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+                return true; // Indica que el evento de clic largo ha sido manejado
+            }
+        });
+
+
 
         boton1.setOnClickListener(new View.OnClickListener() {
             @Override
