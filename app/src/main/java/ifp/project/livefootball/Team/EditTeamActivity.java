@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -120,5 +122,29 @@ public class EditTeamActivity extends AppCompatActivity {
         // Restaurar el estado guardado
         caja1.setText(savedInstanceState.getString("caja1Text"));
         spinner.setSelection(savedInstanceState.getInt("teamSelection"));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflar el menú; esto agrega elementos a la barra de acción si está presente.
+        getMenuInflater().inflate(R.menu.options_main_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Manejar los clics del elemento de la barra de acción
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.Teams_options_main_menu) {
+            // Aquí va tu código para manejar el clic en "Equipos"
+            return true;
+        } else if (id == R.id.Exit_options_main_menu) {
+            // Aquí va tu código para manejar el clic en "Salir"
+            finish();  // Cierra la actividad y por lo tanto la aplicación
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

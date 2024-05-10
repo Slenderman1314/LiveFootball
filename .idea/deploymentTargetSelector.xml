@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-05-04T18:52:30.445753700Z">
+        <DropdownSelection timestamp="2024-05-08T21:58:19.778802500Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\tonia\.android\avd\Pixel_8_Pro_API_34.avd" />

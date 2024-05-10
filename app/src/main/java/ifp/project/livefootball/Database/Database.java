@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
 import java.util.ArrayList;
 import ifp.project.livefootball.Account.User;
 import ifp.project.livefootball.Match.MatchStatistics;
@@ -101,16 +103,29 @@ public class Database extends SQLiteOpenHelper {
     }
 
     // Método de actualización para jugadores
-    public void updatePlayerTeam(String oldPlayerName, String newPlayerName, int newTeamId, String newTeamName) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("playerName", newPlayerName);
-        contentValues.put("idTeam", newTeamId);
-        contentValues.put("team", newTeamName); // Agregar esta línea para actualizar el nombre del equipo
-        String whereClause = "playerName = ?";
-        String[] whereArgs = {oldPlayerName};
-        db.update("players", contentValues, whereClause, whereArgs);
+    public boolean updatePlayerTeam(String oldPlayerName, String newPlayerName, int newTeamId, String newTeamName) {
+        SQLiteDatabase db = null;
+        try {
+            db = this.getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("playerName", newPlayerName);
+            contentValues.put("idTeam", newTeamId);
+            contentValues.put("team", newTeamName);
+            String whereClause = "playerName = ?";
+            String[] whereArgs = {oldPlayerName};
+            int rowsAffected = db.update("players", contentValues, whereClause, whereArgs);
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            // Manejar la excepción
+            Log.e("Database", "Error al actualizar el jugador", e);
+            return false;
+        } finally {
+            if (db != null) {
+                db.close();
+            }
+        }
     }
+
 
     // Método para listar jugadores
     public ArrayList<String> getPlayers() {
