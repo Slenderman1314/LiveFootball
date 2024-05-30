@@ -38,19 +38,19 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.navigation:navigation-fragment:2.7.7'
     implementation 'androidx.navigation:navigation-ui:2.7.7'
-    implementation 'org.testng:testng:7.10.1'
+    implementation 'org.testng:testng:7.10.2'
 
     // Import the BoM for the Firebase platform
-    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
-    implementation platform('com.google.firebase:firebase-bom:32.8.1')
+    implementation(platform('com.google.firebase:firebase-bom:33.1.0'))
+    implementation platform('com.google.firebase:firebase-bom:33.1.0')
     implementation 'com.google.firebase:firebase-analytics'
     // Import the BoM for the Firebase platform
-    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
+    implementation(platform('com.google.firebase:firebase-bom:33.1.0'))
 
     // Add the dependencies for the Crashlytics and Analytics libraries
     // When using the BoM, you don't specify versions in Firebase library dependencies
@@ -61,11 +61,11 @@ dependencies {
     implementation('com.google.guava:listenablefuture:1.0') {
         exclude group: 'com.google.guava', module: 'listenablefuture'
     }
-    implementation 'androidx.activity:activity:1.8.0'
+    implementation 'androidx.activity:activity:1.9.0'
 
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test:runner:1.4.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test:runner:1.5.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
 
 
