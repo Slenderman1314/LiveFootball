@@ -152,15 +152,24 @@ public class Database extends SQLiteOpenHelper {
     }
 
     // Método para conseguir el equipo de un jugador
+    // Método para conseguir el equipo de un jugador
     public String getPlayerTeam(String playerName) {
+        if (playerName == null) {
+            // Si el nombre del jugador es null, devuelve un valor predeterminado
+            return "Jugador no encontrado";
+        }
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT team FROM players WHERE playerName = ?", new String[]{playerName});
         if (cursor.moveToFirst()) {
-            return cursor.getString(0);
+            String team = cursor.getString(0);
+            cursor.close();
+            return team;
         }
         cursor.close();
-        return null;
+        // Devuelve un valor predeterminado si el jugador no existe en la base de datos
+        return "Jugador no encontrado";
     }
+
 
     // Método para listar jugadores ya asignados a un equipo
     public ArrayList<String> getPlayersByTeam(String teamName) {

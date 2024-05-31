@@ -141,7 +141,7 @@ public class EditTeamActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.Exit_options_main_menu) {
             // Aquí va tu código para manejar el clic en "Salir"
-            finish();  // Cierra la actividad y por lo tanto la aplicación
+            System.exit(0);  // Cierra la actividad y por lo tanto la aplicación
             return true;
         }
 

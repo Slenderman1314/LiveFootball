@@ -68,6 +68,15 @@ public class EditPlayerActivity extends AppCompatActivity {
         String playerName = intent.getStringExtra("PLAYER_NAME");
         String playerTeam = intent.getStringExtra("PLAYER_TEAM");
 
+        // Comprueba si playerName y playerTeam no son null antes de usarlos
+        if (playerName != null && playerTeam != null) {
+            // Rellenar los campos con los datos del jugador seleccionado
+            caja1.setText(playerName);
+            playerSpinner.setSelection(getPositionInSpinner(playerSpinner, playerName));
+            oldTeamSpinner.setSelection(getTeamPosition(oldTeamSpinner, getPlayerTeam(playerName)));
+            newTeamSpinner.setSelection(getPositionInSpinner(newTeamSpinner, playerTeam));
+        }
+
         // Rellenar los campos con los datos del jugador seleccionado
         caja1.setText(playerName);
         playerSpinner.setSelection(getPositionInSpinner(playerSpinner, playerName));
@@ -236,7 +245,7 @@ public class EditPlayerActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.Exit_options_main_menu) {
             // Aquí va tu código para manejar el clic en "Salir"
-            finish();  // Cierra la actividad y por lo tanto la aplicación
+            System.exit(0);  // Cierra la actividad y por lo tanto la aplicación
             return true;
         }
 
