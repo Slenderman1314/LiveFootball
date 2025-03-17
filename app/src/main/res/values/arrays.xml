@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="asistente_options">
+        <item>Editar partido</item>
+        <item>Editar equipo</item>
+        <item>Editar jugador</item>
+        <item>Mostrar equipo</item>
+        <!-- Añade más elementos aquí si es necesario -->
+    </array>
+
+    <array name="entrenador_options">
+        <item>Crear partido</item>
+        <item>Editar partido</item>
+        <item>Mostrar equipo</item>
+        <item>Crear equipo</item>
+        <item>Editar equipo</item>
+        <item>Crear jugador</item>
+        <item>Editar jugador</item>
+        <!-- Añade más elementos aquí si es necesario -->
+    </array>
+</resources>
